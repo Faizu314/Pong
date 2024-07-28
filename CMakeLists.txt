@@ -1,0 +1,56 @@
+cmake_minimum_required(VERSION 3.10)
+project(Pong)
+
+set(CMAKE_CXX_STANDARD 11)
+
+# Add source files
+set(SOURCES
+    src/main.cpp
+    src/application.cpp
+    src/asset_manager.cpp
+    src/game.cpp
+    src/input.cpp
+    src/physics.cpp
+    src/renderer.cpp
+    src/text.cpp
+)
+
+# Include directories
+include_directories(include)
+
+# Add executable
+add_executable(Pong ${SOURCES})
+
+# Link SDL2 library
+if(APPLE)
+    # macOS specific libraries
+    set(SDL2_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/mac/libSDL2-2.0.0.dylib")
+    set(SDL2_IMG_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/mac/libSDL2_image-2.0.0.dylib")
+    set(SDL2_TTF_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/mac/libSDL2_ttf-2.0.0.dylib")
+    set(TINY_XML_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/mac/libtinyxml2.10.0.0.dylib")
+    set(GLM_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/mac/libglm.dylib")
+elseif(WIN32)
+    # Windows specific libraries
+    set(SDL2_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/SDL2.dll")
+    set(SDL2_IMG_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/SDL2_image.dll")
+    set(SDL2_TTF_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/SDL2_ttf.dll")
+    set(TINY_XML_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/tinyxml2.dll")
+    set(GLM_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/glm.dll")
+elseif(UNIX)
+    # Linux specific libraries
+    set(SDL2_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/linux/libSDL2-2.0.so.0")
+    set(SDL2_IMG_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/linux/libSDL2_image-2.0.so.0")
+    set(SDL2_TTF_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/linux/libSDL2_ttf-2.0.so.0")
+    set(TINY_XML_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/linux/libtinyxml2.so")
+    set(GLM_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/linux/libglm.so")
+endif()
+
+target_link_libraries(Pong
+    ${SDL2_LIB_PATH}
+    ${SDL2_IMG_LIB_PATH}
+    ${SDL2_TTF_LIB_PATH}
+    ${TINY_XML_LIB_PATH}
+    ${GLM_LIB_PATH}
+)
+
+# Copy .dylib file to the build directory
