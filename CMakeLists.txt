@@ -13,6 +13,7 @@ set(SOURCES
     src/physics.cpp
     src/renderer.cpp
     src/text.cpp
+    third_party/tinyxml2/tinyxml2.cpp
 )
 
 # Include directories
@@ -34,7 +35,6 @@ if(APPLE)
     set(SDL2_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/mac/libSDL2-2.0.0.dylib")
     set(SDL2_IMG_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/mac/libSDL2_image-2.0.0.dylib")
     set(SDL2_TTF_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/mac/libSDL2_ttf-2.0.0.dylib")
-    set(TINY_XML_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/mac/libtinyxml2.10.0.0.dylib")
 elseif(WIN32)
     # Windows specific libraries
     set(SDL2_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/SDL2.dll")
@@ -46,8 +46,6 @@ target_link_libraries(Pong
     ${SDL2_LIB_PATH}
     ${SDL2_IMG_LIB_PATH}
     ${SDL2_TTF_LIB_PATH}
-    ${TINY_XML_LIB_PATH}
-    ${GLM_LIB_PATH}
 )
 
 # Copy .dylib file to the build directory
