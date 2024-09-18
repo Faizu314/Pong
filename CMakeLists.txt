@@ -16,7 +16,14 @@ set(SOURCES
 )
 
 # Include directories
-include_directories(include)
+include_directories(Include/Common)
+
+if(APPLE)
+    include_directories(Include/Mac)
+elseif(WIN32)
+    include_directories(Include/Windows)
+endif()
+
 
 # Add executable
 add_executable(Pong ${SOURCES})
@@ -28,19 +35,11 @@ if(APPLE)
     set(SDL2_IMG_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/mac/libSDL2_image-2.0.0.dylib")
     set(SDL2_TTF_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/mac/libSDL2_ttf-2.0.0.dylib")
     set(TINY_XML_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/mac/libtinyxml2.10.0.0.dylib")
-    set(GLM_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/mac/libglm.dylib")
 elseif(WIN32)
     # Windows specific libraries
     set(SDL2_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/SDL2.dll")
     set(SDL2_IMG_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/SDL2_image.dll")
     set(SDL2_TTF_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/SDL2_ttf.dll")
-elseif(UNIX)
-    # Linux specific libraries
-    set(SDL2_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/linux/libSDL2-2.0.so.0")
-    set(SDL2_IMG_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/linux/libSDL2_image-2.0.so.0")
-    set(SDL2_TTF_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/linux/libSDL2_ttf-2.0.so.0")
-    set(TINY_XML_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/linux/libtinyxml2.so")
-    set(GLM_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/linux/libglm.so")
 endif()
 
 target_link_libraries(Pong
