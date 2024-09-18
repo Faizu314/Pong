@@ -34,8 +34,6 @@ elseif(WIN32)
     set(SDL2_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/SDL2.dll")
     set(SDL2_IMG_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/SDL2_image.dll")
     set(SDL2_TTF_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/SDL2_ttf.dll")
-    set(TINY_XML_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/tinyxml2.dll")
-    set(GLM_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/glm.dll")
 elseif(UNIX)
     # Linux specific libraries
     set(SDL2_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/linux/libSDL2-2.0.so.0")
@@ -54,3 +52,5 @@ target_link_libraries(Pong
 )
 
 # Copy .dylib file to the build directory
+
+# might need to copy .dll files to build directory for windows
