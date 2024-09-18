@@ -16,12 +16,12 @@ set(SOURCES
 )
 
 # Include directories
-include_directories(Include/Common)
+include_directories(include/common)
 
 if(APPLE)
-    include_directories(Include/Mac)
+    include_directories(include/mac)
 elseif(WIN32)
-    include_directories(Include/Windows)
+    include_directories(include/windows)
 endif()
 
 
