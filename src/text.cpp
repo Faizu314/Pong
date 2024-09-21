@@ -1,6 +1,6 @@
 #include "text.hpp"
 
-const char fontMetaPath[74] = "/Users/faizanqaiser/XCodeProjects/Pong/Pong/Fonts/NullTerminator_META.xml";
+const char* fontMetaPath = "Fonts/NullTerminator_META.xml";
 
 typedef struct {
     uint8_t x;
@@ -14,7 +14,7 @@ std::unordered_map<int, int> unicodes;
 void InitDynamicTextBitmap() {
     tinyxml2::XMLDocument doc;
     
-    if (doc.LoadFile(fontMetaPath) != tinyxml2::XML_SUCCESS) {
+    if (doc.LoadFile((std::string(ASSET_PATH) + std::string(fontMetaPath)).c_str()) != tinyxml2::XML_SUCCESS) {
         printf("Failed to load XML file: %s", fontMetaPath);
         return;
     }

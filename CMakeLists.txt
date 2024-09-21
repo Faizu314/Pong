@@ -33,6 +33,9 @@ elseif(WIN32)
     add_executable(Pong WIN32 ${SOURCES})
 endif()
 
+# Add root project path
+target_compile_definitions(Pong PRIVATE ASSET_PATH="${CMAKE_SOURCE_DIR}/Assets/")
+
 # Link SDL2 library
 if(APPLE)
     # macOS specific libraries

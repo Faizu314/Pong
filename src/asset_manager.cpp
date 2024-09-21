@@ -2,14 +2,18 @@
 
 const int ASSETS_COUNT = 4;
 
-const char* ASSET_PATHS[ASSETS_COUNT] = {
-    "/Users/faizanqaiser/XCodeProjects/Pong/Pong/Sprites/Paddle.png",
-    "/Users/faizanqaiser/XCodeProjects/Pong/Pong/Sprites/Ball.png",
-    "/Users/faizanqaiser/XCodeProjects/Pong/Pong/Fonts/NullTerminator_Bitmap.png",
-    "/Users/faizanqaiser/XCodeProjects/Pong/Pong/Fonts/LiberationSans.ttf",
+const char* ASSET_RELATIVE_PATHS[ASSETS_COUNT] = {
+    "Sprites/Paddle.png",
+    "Sprites/Ball.png",
+    "Fonts/NullTerminator_Bitmap.png",
+    "Fonts/LiberationSans.ttf",
 };
 
 void* assetsDatabase[ASSETS_COUNT] = { nullptr };
+
+const std::string GetAssetPath(int assetId) {
+    return std::string(ASSET_PATH) + std::string(ASSET_RELATIVE_PATHS[assetId]);
+}
 
 SDL_Texture* LoadTexture(const char* filename) {
     SDL_Texture* texture;
@@ -29,8 +33,10 @@ SDL_Texture* GetSpriteAsset(int assetId) {
         return nullptr;
     }
     
+    std::string assetPath = GetAssetPath(assetId);
+
     if (assetsDatabase[assetId] == nullptr)
-        assetsDatabase[assetId] = LoadTexture(ASSET_PATHS[assetId]);
+        assetsDatabase[assetId] = LoadTexture(assetPath.c_str());
     
     return (SDL_Texture*)assetsDatabase[assetId];
 }
@@ -41,8 +47,10 @@ TTF_Font* GetFontAsset(int assetId) {
         return nullptr;
     }
     
+    std::string assetPath = GetAssetPath(assetId);
+
     if (assetsDatabase[assetId] == nullptr)
-        assetsDatabase[assetId] = TTF_OpenFont(ASSET_PATHS[assetId], FONT_SIZE);
+        assetsDatabase[assetId] = TTF_OpenFont(assetPath.c_str(), FONT_SIZE);
     
     return (TTF_Font*)assetsDatabase[assetId];
 }
