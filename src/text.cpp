@@ -33,7 +33,7 @@ void InitDynamicTextBitmap() {
         spriteSheetElement->QueryUnsignedAttribute("sizeY", reinterpret_cast<unsigned int*>(&bitmapSize.y));
     }
 
-    uint index = 0;
+    uint32_t index = 0;
     
     // Extract Characters
     tinyxml2::XMLElement* characterArray = doc.FirstChildElement("BitmapFont")->FirstChildElement("CharacterArray");
@@ -61,7 +61,7 @@ void SetDynamicText(DynamicText& textObj, const char* text, ...) {
     int length = vsnprintf(nullptr, 0, text, args_copy);
     va_end(args_copy);
 
-    char formattedText[length + 1];
+    char* formattedText = new char[length + 1];
 
     vsnprintf(formattedText, length + 1, text, args);
 
@@ -83,4 +83,6 @@ void SetDynamicText(DynamicText& textObj, const char* text, ...) {
         textObj.selection[i].w = characterSize.x;
         textObj.selection[i].h = characterSize.y;
     }
+    
+    delete[] formattedText;
 }
