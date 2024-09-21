@@ -2,7 +2,7 @@
 
 #include <SDL2/SDL.h>
 
-#define DEVELOPMENT
+//#define DEVELOPMENT
 
 #ifdef DEVELOPMENT
 #define DEV(X) X
