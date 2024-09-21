@@ -1,7 +1,0 @@
-Check if this glm works on windows.
-If it does then put it in the commons folder.
-If not then replace with glm of windows.
-
-Also check if TinyXml of windows and mac is the same, in which case move it to the commons folder.
-
-And put SDL2 includes as well
