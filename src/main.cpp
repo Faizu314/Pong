@@ -8,7 +8,7 @@ int WinMain(int argc, const char * argv[]) {
     return 0;
 }
 
-#elif _APPLE_
+#elif __APPLE__
 
 int main(int argc, const char* argv[]) {
     RunApp();
