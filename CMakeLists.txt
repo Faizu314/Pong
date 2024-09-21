@@ -53,5 +53,25 @@ target_link_libraries(Pong
 )
 
 # Copy .dylib file to the build directory
+if(WIN32)
+    # Copy SDL2.dll after build
+    add_custom_command(TARGET Pong POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${CMAKE_SOURCE_DIR}/lib/windows/SDL2.dll"
+            "$<TARGET_FILE_DIR:Pong>"
+    )
 
-# might need to copy .dll files to build directory for windows
+    # Copy SDL2_image.dll after build
+    add_custom_command(TARGET Pong POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${CMAKE_SOURCE_DIR}/lib/windows/SDL2_image.dll"
+            "$<TARGET_FILE_DIR:Pong>"
+    )
+
+    # Copy SDL2_ttf.dll after build
+    add_custom_command(TARGET Pong POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${CMAKE_SOURCE_DIR}/lib/windows/SDL2_ttf.dll"
+            "$<TARGET_FILE_DIR:Pong>"
+    )
+endif()
