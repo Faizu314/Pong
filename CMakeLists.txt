@@ -27,7 +27,11 @@ endif()
 
 
 # Add executable
-add_executable(Pong ${SOURCES})
+if (APPLE)
+    add_executable(Pong ${SOURCES})
+elseif(WIN32)
+    add_executable(Pong WIN32 ${SOURCES})
+endif()
 
 # Link SDL2 library
 if(APPLE)
@@ -37,9 +41,9 @@ if(APPLE)
     set(SDL2_TTF_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/mac/libSDL2_ttf-2.0.0.dylib")
 elseif(WIN32)
     # Windows specific libraries
-    set(SDL2_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/SDL2.dll")
-    set(SDL2_IMG_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/SDL2_image.dll")
-    set(SDL2_TTF_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/SDL2_ttf.dll")
+    set(SDL2_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/SDL2.lib")
+    set(SDL2_IMG_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/SDL2_image.lib")
+    set(SDL2_TTF_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/SDL2_ttf.lib")
 endif()
 
 target_link_libraries(Pong
