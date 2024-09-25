@@ -25,7 +25,6 @@ elseif(WIN32)
     include_directories(include/windows)
 endif()
 
-
 # Add executable
 if (APPLE)
     add_executable(Pong ${SOURCES})
@@ -36,27 +35,47 @@ endif()
 # Add root project path
 target_compile_definitions(Pong PRIVATE ASSET_PATH="${CMAKE_SOURCE_DIR}/Assets/")
 
-# Link SDL2 library
+# Link SDL2, SDL2_image, and SDL2_ttf frameworks on macOS
 if(APPLE)
-    # macOS specific libraries
-    set(SDL2_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/mac/libSDL2-2.0.0.dylib")
-    set(SDL2_IMG_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/mac/libSDL2_image-2.0.0.dylib")
-    set(SDL2_TTF_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/mac/libSDL2_ttf-2.0.0.dylib")
+    # Add the path to the frameworks
+    set(CMAKE_FRAMEWORK_PATH "${CMAKE_SOURCE_DIR}/lib/mac")
+
+    # Add the frameworks to the link process
+    target_link_libraries(Pong
+        "-F${CMAKE_SOURCE_DIR}/lib/mac"
+        "-framework SDL2"
+        "-framework SDL2_image"
+        "-framework SDL2_ttf"
+    )
+
+    # Copy frameworks to the build directory
+    add_custom_command(TARGET Pong POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/lib/mac/SDL2.framework"
+        "$<TARGET_FILE_DIR:Pong>/SDL2.framework"
+    )
+    add_custom_command(TARGET Pong POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/lib/mac/SDL2_image.framework"
+        "$<TARGET_FILE_DIR:Pong>/SDL2_image.framework"
+    )
+    add_custom_command(TARGET Pong POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/lib/mac/SDL2_ttf.framework"
+        "$<TARGET_FILE_DIR:Pong>/SDL2_ttf.framework"
+    )
 elseif(WIN32)
     # Windows specific libraries
     set(SDL2_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/SDL2.lib")
     set(SDL2_IMG_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/SDL2_image.lib")
     set(SDL2_TTF_LIB_PATH "${CMAKE_SOURCE_DIR}/lib/windows/SDL2_ttf.lib")
-endif()
+    
+    target_link_libraries(Pong
+        ${SDL2_LIB_PATH}
+        ${SDL2_IMG_LIB_PATH}
+        ${SDL2_TTF_LIB_PATH}
+    )
 
-target_link_libraries(Pong
-    ${SDL2_LIB_PATH}
-    ${SDL2_IMG_LIB_PATH}
-    ${SDL2_TTF_LIB_PATH}
-)
-
-# Copy .dylib file to the build directory
-if(WIN32)
     # Copy SDL2.dll after build
     add_custom_command(TARGET Pong POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
