@@ -37,6 +37,12 @@ target_compile_definitions(Pong PRIVATE ASSET_PATH="${CMAKE_SOURCE_DIR}/Assets/"
 
 # Link SDL2, SDL2_image, and SDL2_ttf frameworks on macOS
 if(APPLE)
+    # Set the runtime path to include the location of the frameworks
+    set_target_properties(Pong PROPERTIES
+        INSTALL_RPATH "@loader_path"
+        BUILD_WITH_INSTALL_RPATH TRUE
+    )
+
     # Add the path to the frameworks
     set(CMAKE_FRAMEWORK_PATH "${CMAKE_SOURCE_DIR}/lib/mac")
 
