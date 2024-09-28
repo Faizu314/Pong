@@ -48,9 +48,6 @@ elseif(WIN32)
     add_executable(Pong WIN32 ${SOURCES} ${HEADERS})
 endif()
 
-# Add root project path
-target_compile_definitions(Pong PRIVATE ASSET_PATH="${CMAKE_SOURCE_DIR}/Assets/")
-
 # Link SDL2, SDL2_image, and SDL2_ttf frameworks on macOS
 if(APPLE)
     # Set the runtime path to include the location of the frameworks
@@ -119,3 +116,10 @@ elseif(WIN32)
             "$<TARGET_FILE_DIR:Pong>"
     )
 endif()
+
+# Copy and paste the assets in the executable directory
+add_custom_command(TARGET Pong POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/Assets"
+        "$<TARGET_FILE_DIR:Pong>/Assets"
+)
