@@ -1,9 +1,9 @@
 #include "application.hpp"
 
-App app;
-World world;
-Input input;
-float timeScale = 1.0;
+char* EXECUTABLE_PATH;
+static SDL_Window* window;
+static Input input;
+static float timeScale = 1.0;
 
 void InitSDL() {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -11,29 +11,7 @@ void InitSDL() {
         exit(1);
     }
     
-    int renderersFlag, windowsFlag = 0;
-    
-    app.window = 
-        SDL_CreateWindow("Pong", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, windowsFlag);
-    
-    if (!app.window) {
-        printf("Failed to open %d x %d window: %s\n", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_GetError());
-        exit(1);
-    }
-    
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-    
-    renderersFlag = SDL_RENDERER_ACCELERATED;
-    
     IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
-    
-    app.renderer = SDL_CreateRenderer(app.window, -1, renderersFlag);
-    
-    if (!app.renderer)
-    {
-        printf("Failed to create renderer: %s\n", SDL_GetError());
-        exit(1);
-    }
     
     if (TTF_Init() < 0) {
         printf("Failed to init TTF: %s\n", SDL_GetError());
@@ -41,18 +19,31 @@ void InitSDL() {
     }
 }
 
+void InitWindow() {
+    int windowsFlag = 0;
+
+    window =
+        SDL_CreateWindow("Pong", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, windowsFlag);
+
+    if (!window) {
+        printf("Failed to open %d x %d window: %s\n", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_GetError());
+        exit(1);
+    }
+
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+}
+
 void Cleanup() {
-    DestroyWorld(world);
-    SDL_DestroyRenderer(app.renderer);
-    SDL_DestroyWindow(app.window);
+    DestroyGame();
+    SDL_DestroyWindow(window);
 }
 
 void InitApp() {
-    memset(&app, 0, sizeof(app));
-    
     InitSDL();
+    InitWindow();
+    InitAssetManager(EXECUTABLE_PATH);
     InitDynamicTextBitmap();
-    InitWorld(world);
+    InitGame(window);
     
     atexit(Cleanup);
 }
@@ -80,8 +71,8 @@ DEV(
         timeScale = glm::clamp<double>(timeScale, 0.01, 10);
 )
         
-        LogicTick(world, input, deltaTime * timeScale);
-        PhysicsTick(world, deltaTime * timeScale);
-        RenderTick(world);
+        LogicTick(input, deltaTime * timeScale);
+        PhysicsTick(deltaTime * timeScale);
+        RenderTick();
     }
 }

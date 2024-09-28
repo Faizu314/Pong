@@ -1,20 +1,21 @@
 #include "text.hpp"
 
-const char* fontMetaPath = "Fonts/NullTerminator_META.xml";
-
 typedef struct {
     uint8_t x;
     uint8_t y;
 } Vector2Int;
 
-Vector2Int characterSize;
-Vector2Int bitmapSize;
-std::unordered_map<int, int> unicodes;
+static Vector2Int characterSize;
+static Vector2Int bitmapSize;
+static std::unordered_map<int, int> unicodes;
+static std::unordered_map<int, TTF_Font*> fonts;
 
 void InitDynamicTextBitmap() {
     tinyxml2::XMLDocument doc;
     
-    if (doc.LoadFile((std::string(ASSET_PATH) + std::string(fontMetaPath)).c_str()) != tinyxml2::XML_SUCCESS) {
+    std::string fontMetaPath = GetAssetPath(FONT_META);
+
+    if (doc.LoadFile(fontMetaPath.c_str()) != tinyxml2::XML_SUCCESS) {
         printf("Failed to load XML file: %s", fontMetaPath);
         return;
     }
@@ -46,9 +47,18 @@ void InitDynamicTextBitmap() {
     }
 }
 
-void InitDynamicText(DynamicText& textObj) {
+TTF_Font* GetFontAsset(int assetId) {
+    std::string assetPath = GetAssetPath(assetId);
+
+    if (fonts.find(assetId) == fonts.end())
+        fonts.insert(std::make_pair(assetId, TTF_OpenFont(assetPath.c_str(), FONT_SIZE)));
+
+    return fonts[assetId];
+}
+
+void InitDynamicText(DynamicText& textObj, SDL_Texture* fontImage) {
     memset(&textObj, 0, sizeof(textObj));
-    textObj.texture = GetSpriteAsset(FONT_BITMAP_SPRITE);
+    textObj.texture = fontImage;
 }
 
 void SetDynamicText(DynamicText& textObj, const char* text, ...) {

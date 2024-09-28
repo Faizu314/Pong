@@ -10,5 +10,6 @@
 #include "renderer.hpp"
 
 void InitDynamicTextBitmap();
-void InitDynamicText(DynamicText& textObj);
+TTF_Font* GetFontAsset(int assetId);
+void InitDynamicText(DynamicText& textObj, SDL_Texture* fontImage);
 void SetDynamicText(DynamicText& textObj, const char* text, ...);

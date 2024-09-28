@@ -1,8 +1,9 @@
 #include "game.hpp"
 
-bool hasGameStarted;
-int playerPoints;
-int computerPoints;
+static World world;
+static bool hasGameStarted;
+static int playerPoints;
+static int computerPoints;
 
 DEV(float fpsDelay; int frameCount;)
 
@@ -10,7 +11,9 @@ bool HasGameStarted() {
     return hasGameStarted;
 }
 
-void InitWorld(World& world) {
+void InitGame(SDL_Window* window) {
+    InitRenderer(window);
+
     memset(&world, 0, sizeof(world));
     
     // Text Entities
@@ -19,12 +22,12 @@ void InitWorld(World& world) {
     world.headerText.size = HEADER_TEXT_RECT_SIZE;
     world.headerText.position = glm::vec2(HEADER_TEXT_RECT_CENTER.x - (HEADER_TEXT_RECT_SIZE.x / 2.0f), HEADER_TEXT_RECT_CENTER.y - (HEADER_TEXT_RECT_SIZE.y / 2.0f));
     
-    InitDynamicText(world.playerPoints);
+    InitDynamicText(world.playerPoints, GetSpriteAsset(FONT_BITMAP_SPRITE));
     world.playerPoints.position = PLAYER_POINTS_TEXT_POSITION;
     world.playerPoints.textSize = POINTS_TEXT_SIZE;
     SetDynamicText(world.playerPoints, "%i", 0);
     
-    InitDynamicText(world.computerPoints);
+    InitDynamicText(world.computerPoints, GetSpriteAsset(FONT_BITMAP_SPRITE));
     world.computerPoints.position = COMPUTER_POINTS_TEXT_POSITION;
     world.computerPoints.textSize = POINTS_TEXT_SIZE;
     SetDynamicText(world.computerPoints, "%i", 0);
@@ -32,7 +35,7 @@ void InitWorld(World& world) {
 DEV(
     fpsDelay = 0.0f;
     frameCount = 0;
-    InitDynamicText(world.fps);
+    InitDynamicText(world.fps, GetSpriteAsset(FONT_BITMAP_SPRITE));
     world.fps.position = FPS_TEXT_POSITION;
     world.fps.textSize = FPS_TEXT_SIZE;
     SetDynamicText(world.fps, "%i", 0);
@@ -68,12 +71,12 @@ DEV(
     playerPoints = computerPoints = 0;
 }
 
-void StartGame(World& world) {
+void StartGame() {
     world.ball.velocity = glm::normalize(glm::vec2(-1, 1)) * BALL_SPEED;
     hasGameStarted = true;
 }
 
-void EndGame(World& world) {
+void EndGame() {
     float paddleY = (BOUNDS_TOP_RIGHT_Y + BOUNDS_BOTTOM_LEFT_Y) / 2.0f;
     
     world.player.position = glm::vec2(BOUNDS_BOTTOM_LEFT_X + 10, paddleY - (world.player.size.y / 2.0f));
@@ -112,7 +115,7 @@ void SetComputerVelocity(Entity& computer, Entity& ball, float deltaTime) {
         computer.velocity = glm::vec2(0, -COMPUTER_SPEED);
 }
 
-int CheckEndGame(World& world) {
+int CheckEndGame() {
     float ballLeftX = world.ball.position.x;
     float ballRightX = ballLeftX + world.ball.size.x;
     
@@ -124,24 +127,24 @@ int CheckEndGame(World& world) {
     return 0;
 }
 
-void LogicTick(World& world, const Input& input, float deltaTime) {
+void LogicTick(const Input& input, float deltaTime) {
     if (hasGameStarted) {
         SetPlayerVelocity(world.player, input);
         SetComputerVelocity(world.computer, world.ball, deltaTime);
         
-        if (int point = CheckEndGame(world)) {
+        if (int point = CheckEndGame()) {
             if (point > 0)
                 SetDynamicText(world.playerPoints, "%i", ++playerPoints);
             else
                 SetDynamicText(world.computerPoints, "%i", ++computerPoints);
-            EndGame(world);
+            EndGame();
         }
     }
     else if (input.space) {
-        StartGame(world);
+        StartGame();
     }
     
-    DEV(
+DEV(
     fpsDelay += deltaTime;
     frameCount++;
     
@@ -151,15 +154,15 @@ void LogicTick(World& world, const Input& input, float deltaTime) {
         fpsDelay = 0.0f;
         frameCount = 0;
     }
-    )
+)
 }
 
-void PhysicsTick(World& world, float deltaTime) {
+void PhysicsTick(float deltaTime) {
     MoveEntities(world, deltaTime);
     ResolveCollision(world);
 }
 
-void RenderTick(World& world) {
+void RenderTick() {
     ClearFrame();
     
     RenderEntity(world.player);
@@ -180,9 +183,11 @@ void RenderTick(World& world) {
     RenderFrame();
 }
 
-void DestroyWorld(World& world) {
+void DestroyGame() {
     delete world.playerPoints.selection;
     delete world.computerPoints.selection;
     
-    DEV(delete world.fps.selection;)
+    DEV(delete world.fps.selection);
+
+    DestroyRenderer();
 }

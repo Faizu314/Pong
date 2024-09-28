@@ -1,9 +1,17 @@
 #pragma once
 
+#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
-#include "common.hpp"
+#include <string>
+#include <unordered_map>
 
+#include "common.hpp"
+#include "asset_manager.hpp"
+
+void InitRenderer(SDL_Window* window);
+void DestroyRenderer();
+SDL_Texture* GetSpriteAsset(int assetId);
 void ClearFrame();
 void RenderFrame();
 SDL_Point GetTextureSize(SDL_Texture* texture);

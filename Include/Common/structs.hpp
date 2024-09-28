@@ -6,11 +6,6 @@
 #include "defs.hpp"
 
 typedef struct {
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-} App;
-
-typedef struct {
     bool up;
     bool down;
     bool left;
