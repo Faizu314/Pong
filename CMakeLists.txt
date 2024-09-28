@@ -16,6 +16,22 @@ set(SOURCES
     third_party/tinyxml2/tinyxml2.cpp
 )
 
+# Add header files
+set(HEADERS
+    include/common/application.hpp
+    include/common/asset_manager.hpp
+    include/common/game.hpp
+    include/common/input.hpp
+    include/common/physics.hpp
+    include/common/renderer.hpp
+    include/common/text.hpp
+    include/common/TinyXml/tinyxml2.h
+)
+
+# Organize headers and sources into folders for Visual Studio
+source_group("Header Files" FILES ${HEADERS})
+source_group("Source Files" FILES ${SOURCES})
+
 # Include directories
 include_directories(include/common)
 
@@ -27,9 +43,9 @@ endif()
 
 # Add executable
 if (APPLE)
-    add_executable(Pong ${SOURCES})
+    add_executable(Pong ${SOURCES} ${HEADERS})
 elseif(WIN32)
-    add_executable(Pong WIN32 ${SOURCES})
+    add_executable(Pong WIN32 ${SOURCES} ${HEADERS})
 endif()
 
 # Add root project path
