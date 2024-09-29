@@ -1,9 +1,9 @@
 #include "application.hpp"
 
 char* EXECUTABLE_PATH;
-static SDL_Window* window;
-static Input input;
-static float timeScale = 1.0;
+static SDL_Window* _window;
+static Input _input;
+static float _timeScale = 1.0;
 
 void InitSDL() {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -22,10 +22,10 @@ void InitSDL() {
 void InitWindow() {
     int windowsFlag = 0;
 
-    window =
+    _window =
         SDL_CreateWindow("Pong", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, windowsFlag);
 
-    if (!window) {
+    if (!_window) {
         printf("Failed to open %d x %d window: %s\n", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_GetError());
         exit(1);
     }
@@ -35,7 +35,7 @@ void InitWindow() {
 
 void Cleanup() {
     DestroyGame();
-    SDL_DestroyWindow(window);
+    SDL_DestroyWindow(_window);
 }
 
 void InitApp() {
@@ -43,7 +43,7 @@ void InitApp() {
     InitWindow();
     InitAssetManager(EXECUTABLE_PATH);
     InitDynamicTextBitmap();
-    InitGame(window);
+    InitGame(_window);
     
     atexit(Cleanup);
 }
@@ -57,22 +57,22 @@ void RunApp() {
     
     while (true)
     {
-        GetInput(input);
+        GetInput(_input);
         
         Uint64 currTime = SDL_GetPerformanceCounter();
         deltaTime = (currTime - prevTime) / freqMs;
         prevTime = SDL_GetPerformanceCounter();
         
 DEV(
-        if (input.Right)
-            timeScale += deltaTime;
-        else if (input.Left)
-            timeScale -= deltaTime;
-        timeScale = glm::clamp<double>(timeScale, 0.01, 10);
+        if (_input.Right)
+            _timeScale += deltaTime;
+        else if (_input.Left)
+            _timeScale -= deltaTime;
+        _timeScale = glm::clamp<double>(_timeScale, 0.01, 10);
 )
         
-        LogicTick(input, deltaTime * timeScale);
-        PhysicsTick(deltaTime * timeScale);
+        LogicTick(_input, deltaTime * _timeScale);
+        PhysicsTick(deltaTime * _timeScale);
         RenderTick();
     }
 }

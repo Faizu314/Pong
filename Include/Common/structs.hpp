@@ -35,8 +35,8 @@ typedef struct {
 
 typedef struct {
     Entity HeaderText;
-    DynamicText PlayerPoints;
-    DynamicText ComputerPoints;
+    DynamicText _playerPoints;
+    DynamicText _computerPoints;
     Entity Player;
     Entity Computer;
     Entity Ball;

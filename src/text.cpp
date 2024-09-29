@@ -5,10 +5,10 @@ typedef struct {
     uint8_t y;
 } Vector2Int;
 
-static Vector2Int characterSize;
-static Vector2Int bitmapSize;
-static std::unordered_map<int, int> unicodes;
-static std::unordered_map<int, TTF_Font*> fonts;
+static Vector2Int _characterSize;
+static Vector2Int _bitmapSize;
+static std::unordered_map<int, int> _unicodes;
+static std::unordered_map<int, TTF_Font*> _fonts;
 
 void InitDynamicTextBitmap() {
     tinyxml2::XMLDocument doc;
@@ -23,15 +23,15 @@ void InitDynamicTextBitmap() {
     // Extract CharacterSize
     tinyxml2::XMLElement* charSizeElement = doc.FirstChildElement("BitmapFont")->FirstChildElement("CharacterSize");
     if (charSizeElement) {
-        charSizeElement->QueryUnsignedAttribute("width", reinterpret_cast<unsigned int*>(&characterSize.x));
-        charSizeElement->QueryUnsignedAttribute("height", reinterpret_cast<unsigned int*>(&characterSize.y));
+        charSizeElement->QueryUnsignedAttribute("width", reinterpret_cast<unsigned int*>(&_characterSize.x));
+        charSizeElement->QueryUnsignedAttribute("height", reinterpret_cast<unsigned int*>(&_characterSize.y));
     }
 
     // Extract SpriteSheet size
     tinyxml2::XMLElement* spriteSheetElement = doc.FirstChildElement("BitmapFont")->FirstChildElement("SpriteSheetSize");
     if (spriteSheetElement) {
-        spriteSheetElement->QueryUnsignedAttribute("sizeX", reinterpret_cast<unsigned int*>(&bitmapSize.x));
-        spriteSheetElement->QueryUnsignedAttribute("sizeY", reinterpret_cast<unsigned int*>(&bitmapSize.y));
+        spriteSheetElement->QueryUnsignedAttribute("sizeX", reinterpret_cast<unsigned int*>(&_bitmapSize.x));
+        spriteSheetElement->QueryUnsignedAttribute("sizeY", reinterpret_cast<unsigned int*>(&_bitmapSize.y));
     }
 
     uint32_t index = 0;
@@ -42,7 +42,7 @@ void InitDynamicTextBitmap() {
         for (tinyxml2::XMLElement* characterElement = characterArray->FirstChildElement("Character"); characterElement != nullptr; characterElement = characterElement->NextSiblingElement("Character")) {
             int unicode;
             characterElement->QueryIntAttribute("unicode", &unicode);
-            unicodes[unicode] = index++;
+            _unicodes[unicode] = index++;
         }
     }
 }
@@ -50,10 +50,10 @@ void InitDynamicTextBitmap() {
 TTF_Font* GetFontAsset(int assetId) {
     std::string assetPath = GetAssetPath(assetId);
 
-    if (fonts.find(assetId) == fonts.end())
-        fonts.insert(std::make_pair(assetId, TTF_OpenFont(assetPath.c_str(), FONT_SIZE)));
+    if (_fonts.find(assetId) == _fonts.end())
+        _fonts.insert(std::make_pair(assetId, TTF_OpenFont(assetPath.c_str(), FONT_SIZE)));
 
-    return fonts[assetId];
+    return _fonts[assetId];
 }
 
 void InitDynamicText(DynamicText& textObj, SDL_Texture* fontImage) {
@@ -84,14 +84,14 @@ void SetDynamicText(DynamicText& textObj, const char* text, ...) {
     }
     
     for (int i = 0; i < length; i++) {
-        int index = unicodes[formattedText[i]];
-        int indexX = index % bitmapSize.x;
-        int indexY = index / bitmapSize.x;
+        int index = _unicodes[formattedText[i]];
+        int indexX = index % _bitmapSize.x;
+        int indexY = index / _bitmapSize.x;
         
-        textObj.Selection[i].x = indexX * characterSize.x;
-        textObj.Selection[i].y = indexY * characterSize.y;
-        textObj.Selection[i].w = characterSize.x;
-        textObj.Selection[i].h = characterSize.y;
+        textObj.Selection[i].x = indexX * _characterSize.x;
+        textObj.Selection[i].y = indexY * _characterSize.y;
+        textObj.Selection[i].w = _characterSize.x;
+        textObj.Selection[i].h = _characterSize.y;
     }
     
     delete[] formattedText;

@@ -1,9 +1,9 @@
 #include "asset_manager.hpp"
 
-static char* executablePath;
+static char* _executablePath;
 
 void InitAssetManager(char* exePath) {
-    executablePath = exePath;
+    _executablePath = exePath;
 }
 
 std::string GetAssetPath(int assetId) {
@@ -12,5 +12,5 @@ std::string GetAssetPath(int assetId) {
         return std::string();
     }
 
-    return std::string(executablePath) + std::string(ASSET_RELATIVE_PATHS[assetId]);
+    return std::string(_executablePath) + std::string(ASSET_RELATIVE_PATHS[assetId]);
 }
