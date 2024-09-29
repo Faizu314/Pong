@@ -21,26 +21,26 @@ void DestroyRenderer() {
     SDL_DestroyRenderer(renderer);
 }
 
-void Blit(SDL_Texture* texture, int x, int y) {
+void Blit(SDL_Texture* Texture, int x, int y) {
     SDL_Rect dest;
     
     dest.x = x;
     dest.y = y;
     
-    SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
-    SDL_RenderCopy(renderer, texture, NULL, &dest);
+    SDL_QueryTexture(Texture, NULL, NULL, &dest.w, &dest.h);
+    SDL_RenderCopy(renderer, Texture, NULL, &dest);
 }
 
-void Blit(SDL_Texture* texture, SDL_Rect srcRect, int x, int y, SDL_Point size, SDL_Color tint) {
+void Blit(SDL_Texture* Texture, SDL_Rect srcRect, int x, int y, SDL_Point Size, SDL_Color tint) {
     SDL_Rect dest;
     
     dest.x = x;
     dest.y = y;
-    dest.w = size.x;
-    dest.h = size.y;
+    dest.w = Size.x;
+    dest.h = Size.y;
     
-    SDL_SetTextureColorMod(texture, tint.r, tint.g, tint.b);
-    SDL_RenderCopy(renderer, texture, &srcRect, &dest);
+    SDL_SetTextureColorMod(Texture, tint.r, tint.g, tint.b);
+    SDL_RenderCopy(renderer, Texture, &srcRect, &dest);
 }
 
 void DrawLine(int x1, int y1, int x2, int y2, SDL_Color color) {
@@ -49,15 +49,15 @@ void DrawLine(int x1, int y1, int x2, int y2, SDL_Color color) {
 }
 
 SDL_Texture* LoadTexture(const char* filename) {
-    SDL_Texture* texture;
+    SDL_Texture* Texture;
 
-    texture = IMG_LoadTexture(renderer, filename);
+    Texture = IMG_LoadTexture(renderer, filename);
 
-    if (!texture) {
+    if (!Texture) {
         printf("Unable to load texture %s\n", filename);
     }
 
-    return texture;
+    return Texture;
 }
 
 SDL_Texture* GetSpriteAsset(int assetId) {
@@ -78,10 +78,10 @@ void RenderFrame() {
     SDL_RenderPresent(renderer);
 }
 
-SDL_Point GetTextureSize(SDL_Texture* texture) {
-    SDL_Point size;
-    SDL_QueryTexture(texture, NULL, NULL, &size.x, &size.y);
-    return size;
+SDL_Point GetTextureSize(SDL_Texture* Texture) {
+    SDL_Point Size;
+    SDL_QueryTexture(Texture, NULL, NULL, &Size.x, &Size.y);
+    return Size;
 }
 
 SDL_Texture* GetStaticTextTexture(TTF_Font* ttfFont, const char* text) {
@@ -90,18 +90,18 @@ SDL_Texture* GetStaticTextTexture(TTF_Font* ttfFont, const char* text) {
 }
 
 void RenderEntity(const Entity& entity) {
-    Blit(entity.texture, entity.position.x, entity.position.y);
+    Blit(entity.Texture, entity.Position.x, entity.Position.y);
 }
 
 void RenderLine(const Line& line) {
-    DrawLine(line.positionA.x, line.positionA.y, line.positionB.x, line.positionB.y, BORDER_COLOR);
+    DrawLine(line.PositionA.x, line.PositionA.y, line.PositionB.x, line.PositionB.y, BORDER_COLOR);
 }
 
 void RenderDynamicText(const DynamicText& text, SDL_Color tint) {
-    int x = text.position.x;
-    int y = text.position.y;
-    for (uint32_t i = 0; i < text.charCount; i++) {
-        Blit(text.texture, text.selection[i], x, y, text.textSize, tint);
-        x += text.textSize.x;
+    int x = text.Position.x;
+    int y = text.Position.y;
+    for (uint32_t i = 0; i < text.CharCount; i++) {
+        Blit(text.Texture, text.Selection[i], x, y, text.TextSize, tint);
+        x += text.TextSize.x;
     }
 }

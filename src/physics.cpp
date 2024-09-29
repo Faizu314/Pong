@@ -9,81 +9,81 @@ int sign(float v) {
 }
 
 void MoveEntities(World& world, float deltaTime) {
-    world.player.position += world.player.velocity * deltaTime;
-    world.computer.position += world.computer.velocity * deltaTime;
-    world.ball.position += world.ball.velocity * deltaTime;
+    world.Player.Position += world.Player.Velocity * deltaTime;
+    world.Computer.Position += world.Computer.Velocity * deltaTime;
+    world.Ball.Position += world.Ball.Velocity * deltaTime;
 }
 
 void ResolvePaddleWithWallCollision(Entity& paddle) {
-    float paddleMaxY = BOUNDS_BOTTOM_LEFT_Y - paddle.size.y;
+    float paddleMaxY = BOUNDS_BOTTOM_LEFT_Y - paddle.Size.y;
     float paddleMinY = BOUNDS_TOP_RIGHT_Y;
     
-    if (paddle.position.y > paddleMaxY)
-        paddle.position.y = paddleMaxY;
-    else if (paddle.position.y < paddleMinY)
-        paddle.position.y = paddleMinY;
+    if (paddle.Position.y > paddleMaxY)
+        paddle.Position.y = paddleMaxY;
+    else if (paddle.Position.y < paddleMinY)
+        paddle.Position.y = paddleMinY;
 }
 
-void ResolveBallWithWallCollision(Entity& ball) {
-    float ballMaxY = BOUNDS_BOTTOM_LEFT_Y - ball.size.y;
+void ResolveBallWithWallCollision(Entity& Ball) {
+    float ballMaxY = BOUNDS_BOTTOM_LEFT_Y - Ball.Size.y;
     float ballMinY = BOUNDS_TOP_RIGHT_Y;
     
-    if (ball.position.y > ballMaxY)
-        ball.position.y = ballMaxY;
-    else if (ball.position.y < ballMinY)
-        ball.position.y = ballMinY;
+    if (Ball.Position.y > ballMaxY)
+        Ball.Position.y = ballMaxY;
+    else if (Ball.Position.y < ballMinY)
+        Ball.Position.y = ballMinY;
     else
         return;
     
-    ball.velocity.y = -ball.velocity.y;
+    Ball.Velocity.y = -Ball.Velocity.y;
 }
 
-void ResolveBallWithPaddleCollision(Entity& ball, Entity& paddle) {
+void ResolveBallWithPaddleCollision(Entity& Ball, Entity& paddle) {
     bool isColliding =
-        (ball.position.x < paddle.position.x + paddle.size.x)  &&
-        (ball.position.x + ball.size.x > paddle.position.x)    &&
-        (ball.position.y < paddle.position.y + paddle.size.y)  &&
-        (ball.position.y + ball.size.y > paddle.position.y);
+        (Ball.Position.x < paddle.Position.x + paddle.Size.x)  &&
+        (Ball.Position.x + Ball.Size.x > paddle.Position.x)    &&
+        (Ball.Position.y < paddle.Position.y + paddle.Size.y)  &&
+        (Ball.Position.y + Ball.Size.y > paddle.Position.y);
     
     if (!isColliding)
         return;
     
     float xDisp, yDisp;
-    if (ball.velocity.x < 0.0f)
-        xDisp = ball.position.x - (paddle.position.x + paddle.size.x);
+    if (Ball.Velocity.x < 0.0f)
+        xDisp = Ball.Position.x - (paddle.Position.x + paddle.Size.x);
     else
-        xDisp = ball.position.x + ball.size.x - paddle.position.x;
-    if (ball.velocity.y - paddle.velocity.y < 0.0f)
-        yDisp = paddle.position.y + paddle.size.y - ball.position.y;
+        xDisp = Ball.Position.x + Ball.Size.x - paddle.Position.x;
+    if (Ball.Velocity.y - paddle.Velocity.y < 0.0f)
+        yDisp = paddle.Position.y + paddle.Size.y - Ball.Position.y;
     else
-        yDisp = paddle.position.y - (ball.position.y + ball.size.y);
+        yDisp = paddle.Position.y - (Ball.Position.y + Ball.Size.y);
     
     if (std::abs(xDisp) < std::abs(yDisp)) {
-        ball.position.x -= xDisp;
-        ball.velocity.x *= -1;
+        Ball.Position.x -= xDisp;
+        Ball.Velocity.x *= -1;
     }
     else {
-        ball.position.y += yDisp;
-        ball.velocity.y *= sign(ball.velocity.y) * sign(yDisp);
+        Ball.Position.y += yDisp;
+        Ball.Velocity.y *= sign(Ball.Velocity.y) * sign(yDisp);
     }
     
-    glm::vec2 paddleMid(paddle.position.x + (paddle.size.x / 2.0), paddle.position.y + (paddle.size.y / 2.0));
-    glm::vec2 ballMid(ball.position.x + (ball.size.x / 2.0), ball.position.y + (ball.size.y / 2.0));
-    glm::vec2 paddleVelNorm = paddle.velocity;
+    glm::vec2 paddleMid(paddle.Position.x + (paddle.Size.x / 2.0), paddle.Position.y + (paddle.Size.y / 2.0));
+    glm::vec2 ballMid(Ball.Position.x + (Ball.Size.x / 2.0), Ball.Position.y + (Ball.Size.y / 2.0));
+    glm::vec2 paddleVelNorm = paddle.Velocity;
     if (paddleVelNorm.y != 0)
         paddleVelNorm.y = paddleVelNorm.y > 0.0 ? 1.0 : -1.0;
     
-    ball.velocity = glm::normalize(ball.velocity) * REFLECTION_WEIGHT;
-    ball.velocity += glm::normalize(ballMid - paddleMid) * PADDLE_DEFLECTION_WEIGHT;
-    ball.velocity += paddleVelNorm * PADDLE_VELOCITY_WEIGHT;
-    ball.velocity /= REFLECTION_WEIGHT + PADDLE_DEFLECTION_WEIGHT + PADDLE_VELOCITY_WEIGHT;
-    ball.velocity = glm::normalize(ball.velocity) * BALL_SPEED;
+    Ball.Velocity = glm::normalize(Ball.Velocity) * REFLECTION_WEIGHT;
+    Ball.Velocity += glm::normalize(ballMid - paddleMid) * PADDLE_DEFLECTION_WEIGHT;
+    Ball.Velocity += paddleVelNorm * PADDLE_VELOCITY_WEIGHT;
+    Ball.Velocity /= REFLECTION_WEIGHT + PADDLE_DEFLECTION_WEIGHT + PADDLE_VELOCITY_WEIGHT;
+    Ball.Velocity = glm::normalize(Ball.Velocity) * BALL_SPEED;
 }
 
 void ResolveCollision(World& world) {
-    ResolvePaddleWithWallCollision(world.player);
-    ResolvePaddleWithWallCollision(world.computer);
-    ResolveBallWithWallCollision(world.ball);
-    ResolveBallWithPaddleCollision(world.ball, world.player);
-    ResolveBallWithPaddleCollision(world.ball, world.computer);
+    ResolvePaddleWithWallCollision(world.Player);
+    ResolvePaddleWithWallCollision(world.Computer);
+    ResolveBallWithWallCollision(world.Ball);
+    ResolveBallWithPaddleCollision(world.Ball, world.Player);
+    ResolveBallWithPaddleCollision(world.Ball, world.Computer);
 }

@@ -64,9 +64,9 @@ void RunApp() {
         prevTime = SDL_GetPerformanceCounter();
         
 DEV(
-        if (input.right)
+        if (input.Right)
             timeScale += deltaTime;
-        else if (input.left)
+        else if (input.Left)
             timeScale -= deltaTime;
         timeScale = glm::clamp<double>(timeScale, 0.01, 10);
 )

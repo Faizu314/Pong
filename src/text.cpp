@@ -16,7 +16,7 @@ void InitDynamicTextBitmap() {
     std::string fontMetaPath = GetAssetPath(FONT_META);
 
     if (doc.LoadFile(fontMetaPath.c_str()) != tinyxml2::XML_SUCCESS) {
-        printf("Failed to load XML file: %s", fontMetaPath);
+        printf("Failed to load XML file: %s", fontMetaPath.c_str());
         return;
     }
 
@@ -58,7 +58,7 @@ TTF_Font* GetFontAsset(int assetId) {
 
 void InitDynamicText(DynamicText& textObj, SDL_Texture* fontImage) {
     memset(&textObj, 0, sizeof(textObj));
-    textObj.texture = fontImage;
+    textObj.Texture = fontImage;
 }
 
 void SetDynamicText(DynamicText& textObj, const char* text, ...) {
@@ -77,10 +77,10 @@ void SetDynamicText(DynamicText& textObj, const char* text, ...) {
 
     va_end(args);
     
-    if (textObj.charCount != length) {
-        delete textObj.selection;
-        textObj.selection = new SDL_Rect[length];
-        textObj.charCount = length;
+    if (textObj.CharCount != length) {
+        delete textObj.Selection;
+        textObj.Selection = new SDL_Rect[length];
+        textObj.CharCount = length;
     }
     
     for (int i = 0; i < length; i++) {
@@ -88,10 +88,10 @@ void SetDynamicText(DynamicText& textObj, const char* text, ...) {
         int indexX = index % bitmapSize.x;
         int indexY = index / bitmapSize.x;
         
-        textObj.selection[i].x = indexX * characterSize.x;
-        textObj.selection[i].y = indexY * characterSize.y;
-        textObj.selection[i].w = characterSize.x;
-        textObj.selection[i].h = characterSize.y;
+        textObj.Selection[i].x = indexX * characterSize.x;
+        textObj.Selection[i].y = indexY * characterSize.y;
+        textObj.Selection[i].w = characterSize.x;
+        textObj.Selection[i].h = characterSize.y;
     }
     
     delete[] formattedText;

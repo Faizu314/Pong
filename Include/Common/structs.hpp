@@ -6,44 +6,44 @@
 #include "defs.hpp"
 
 typedef struct {
-    bool up;
-    bool down;
-    bool left;
-    bool right;
-    bool space;
+    bool Up;
+    bool Down;
+    bool Left;
+    bool Right;
+    bool Space;
 } Input;
 
 typedef struct {
-    glm::vec2 position;
-    glm::vec2 velocity;
-    SDL_Point size;
-    SDL_Texture* texture;
+    glm::vec2 Position;
+    glm::vec2 Velocity;
+    SDL_Point Size;
+    SDL_Texture* Texture;
 } Entity;
 
 typedef struct {
-    SDL_Point position;
-    SDL_Rect* selection;
-    uint32_t charCount;
-    SDL_Point textSize;
-    SDL_Texture* texture;
+    SDL_Point Position;
+    SDL_Rect* Selection;
+    uint32_t CharCount;
+    SDL_Point TextSize;
+    SDL_Texture* Texture;
 } DynamicText;
 
 typedef struct {
-    glm::vec2 positionA;
-    glm::vec2 positionB;
+    glm::vec2 PositionA;
+    glm::vec2 PositionB;
 } Line;
 
 typedef struct {
-    Entity headerText;
-    DynamicText playerPoints;
-    DynamicText computerPoints;
-    Entity player;
-    Entity computer;
-    Entity ball;
-    Line borders[4];
+    Entity HeaderText;
+    DynamicText PlayerPoints;
+    DynamicText ComputerPoints;
+    Entity Player;
+    Entity Computer;
+    Entity Ball;
+    Line Borders[4];
     
 DEV(
-    DynamicText fps;
+    DynamicText Fps;
 )
     
 } World;

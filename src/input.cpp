@@ -5,15 +5,15 @@ void ProcessKeyDownEvent(Input& input, const SDL_KeyboardEvent* event) {
         return;
 
     if (event->keysym.scancode == SDL_SCANCODE_UP)
-        input.up = true;
+        input.Up = true;
     if (event->keysym.scancode == SDL_SCANCODE_DOWN)
-        input.down = true;
+        input.Down = true;
     if (event->keysym.scancode == SDL_SCANCODE_LEFT)
-        input.left = true;
+        input.Left = true;
     if (event->keysym.scancode == SDL_SCANCODE_RIGHT)
-        input.right = true;
+        input.Right = true;
     if (event->keysym.scancode == SDL_SCANCODE_SPACE)
-        input.space = true;
+        input.Space = true;
 }
 
 void ProcessKeyUpEvent(Input& input, const SDL_KeyboardEvent* event) {
@@ -21,15 +21,15 @@ void ProcessKeyUpEvent(Input& input, const SDL_KeyboardEvent* event) {
         return;
     
     if (event->keysym.scancode == SDL_SCANCODE_UP)
-        input.up = false;
+        input.Up = false;
     if (event->keysym.scancode == SDL_SCANCODE_DOWN)
-        input.down = false;
+        input.Down = false;
     if (event->keysym.scancode == SDL_SCANCODE_LEFT)
-        input.left = false;
+        input.Left = false;
     if (event->keysym.scancode == SDL_SCANCODE_RIGHT)
-        input.right = false;
+        input.Right = false;
     if (event->keysym.scancode == SDL_SCANCODE_SPACE)
-        input.space = false;
+        input.Space = false;
 }
 
 void GetInput(Input& input) {
