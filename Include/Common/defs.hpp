@@ -25,7 +25,7 @@ constexpr SDL_Color BORDER_COLOR = { 180, 120, 0, 255 };
 
 // ASSETS
 
-const int ASSETS_COUNT = 5;
+constexpr int ASSETS_COUNT = 5;
 
 constexpr int PADDLE_SPRITE = 0;
 constexpr int BALL_SPRITE = 1;
