@@ -18,6 +18,9 @@ set(SOURCES
 
 # Add header files
 set(HEADERS
+    include/common/common.hpp
+    include/common/defs.hpp
+    include/common/structs.hpp
     include/common/application.hpp
     include/common/asset_manager.hpp
     include/common/game.hpp
