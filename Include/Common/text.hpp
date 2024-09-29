@@ -3,11 +3,12 @@
 #include <unordered_map>
 #include <cstdint>
 #include <string>
+
 #include <TinyXml/tinyxml2.h>
+#include <SDL2/SDL_ttf.h>
 
 #include "common.hpp"
 #include "asset_manager.hpp"
-#include "renderer.hpp"
 
 void InitDynamicTextBitmap();
 TTF_Font* GetFontAsset(int assetId);

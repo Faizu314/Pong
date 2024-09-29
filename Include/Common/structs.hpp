@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <glm/glm.hpp>
 #include <glm/ext/vector_float2.hpp>
+
 #include "defs.hpp"
 
 typedef struct {
