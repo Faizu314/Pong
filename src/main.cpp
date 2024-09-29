@@ -7,20 +7,23 @@ extern char* EXECUTABLE_PATH;
 #include <windows.h>
 #include <algorithm>
 
+std::string FormatExePath(const char* moduleFileName) {
+    std::string formattedPath(moduleFileName);
+    std::replace(formattedPath.begin(), formattedPath.end(), '\\', '/');
+    size_t lastSlash = formattedPath.find_last_of("\\/");
+    if (lastSlash != std::string::npos)
+        formattedPath = formattedPath.substr(0, lastSlash);
+    
+    return formattedPath;
+}
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
     char exePath[MAX_PATH];
 
     GetModuleFileName(hInstance, exePath, MAX_PATH);
 
-    std::string formattedpath(exePath);
-    std::replace(formattedpath.begin(), formattedpath.end(), '\\', '/');
-    size_t lastSlash = formattedpath.find_last_of("\\/");
-    if (lastSlash != std::string::npos) {
-        formattedpath = formattedpath.substr(0, lastSlash);
-    }
-    //formattedpath.insert(2, 1, '/');
-
-    EXECUTABLE_PATH = &formattedpath[0];
+    std::string path = FormatExePath(exePath);
+    EXECUTABLE_PATH = &path[0];
 
     RunApp();
 
