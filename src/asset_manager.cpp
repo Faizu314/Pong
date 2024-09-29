@@ -7,10 +7,10 @@ void InitAssetManager(char* exePath) {
 }
 
 std::string GetAssetPath(int assetId) {
-    if (assetId < 0 || assetId > ASSETS_COUNT) {
+    if (assetId < 0 || assetId > Assets::ASSETS_COUNT) {
         printf("Invalid spriteId");
         return std::string();
     }
 
-    return std::string(_executablePath) + std::string(ASSET_RELATIVE_PATHS[assetId]);
+    return std::string(_executablePath) + std::string(Assets::ASSET_RELATIVE_PATHS[assetId]);
 }

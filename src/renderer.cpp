@@ -1,6 +1,6 @@
 #include "renderer.hpp"
 
-const int SPRITE_COUNT = 3;
+static const int SPRITE_COUNT = 3;
 
 static SDL_Renderer* _renderer;
 static std::unordered_map<int, SDL_Texture*> _sprites;
@@ -85,7 +85,7 @@ SDL_Point GetTextureSize(SDL_Texture* texture) {
 }
 
 SDL_Texture* GetStaticTextTexture(TTF_Font* ttfFont, const char* text) {
-    SDL_Surface* surface = TTF_RenderText_Solid(ttfFont, text, HEADER_TEXT_COLOR);
+    SDL_Surface* surface = TTF_RenderText_Solid(ttfFont, text, Scene::HEADER_TEXT_COLOR);
     return SDL_CreateTextureFromSurface(_renderer, surface);
 }
 
@@ -94,7 +94,7 @@ void RenderEntity(const Entity& entity) {
 }
 
 void RenderLine(const Line& line) {
-    DrawLine(line.PositionA.x, line.PositionA.y, line.PositionB.x, line.PositionB.y, BORDER_COLOR);
+    DrawLine(line.PositionA.x, line.PositionA.y, line.PositionB.x, line.PositionB.y, Scene::BORDER_COLOR);
 }
 
 void RenderDynamicText(const DynamicText& text, SDL_Color tint) {

@@ -1,7 +1,5 @@
 #include "application.hpp"
 
-extern char* EXECUTABLE_PATH;
-
 #ifdef _WIN32
 
 #include <windows.h>
@@ -21,11 +19,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     char exePath[MAX_PATH];
 
     GetModuleFileName(hInstance, exePath, MAX_PATH);
-
     std::string path = FormatExePath(exePath);
-    EXECUTABLE_PATH = &path[0];
 
-    RunApp();
+    App::EXECUTABLE_PATH = &path[0];
+    App::Run();
 
     return 0;
 }

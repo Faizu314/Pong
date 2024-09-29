@@ -18,24 +18,24 @@ void InitGame(SDL_Window* window) {
     
     // Text Entities
     
-    _world.HeaderText.Texture = GetStaticTextTexture(GetFontAsset(FONT_TTF), "Press space to start");
-    _world.HeaderText.Size = HEADER_TEXT_RECT_SIZE;
-    _world.HeaderText.Position = glm::vec2(HEADER_TEXT_RECT_CENTER.x - (HEADER_TEXT_RECT_SIZE.x / 2.0f), HEADER_TEXT_RECT_CENTER.y - (HEADER_TEXT_RECT_SIZE.y / 2.0f));
+    _world.HeaderText.Texture = GetStaticTextTexture(GetFontAsset(Assets::FONT_TTF), "Press space to start");
+    _world.HeaderText.Size = Scene::HEADER_TEXT_RECT_SIZE;
+    _world.HeaderText.Position = glm::vec2(Scene::HEADER_TEXT_RECT_CENTER.x - (Scene::HEADER_TEXT_RECT_SIZE.x / 2.0f), Scene::HEADER_TEXT_RECT_CENTER.y - (Scene::HEADER_TEXT_RECT_SIZE.y / 2.0f));
     
-    InitDynamicText(_world._playerPoints, GetSpriteAsset(FONT_BITMAP_SPRITE));
-    _world._playerPoints.Position = PLAYER_POINTS_TEXT_POSITION;
-    _world._playerPoints.TextSize = POINTS_TEXT_SIZE;
+    InitDynamicText(_world._playerPoints, GetSpriteAsset(Assets::FONT_BITMAP_SPRITE));
+    _world._playerPoints.Position = Scene::PLAYER_POINTS_TEXT_POSITION;
+    _world._playerPoints.TextSize = Scene::POINTS_TEXT_SIZE;
     SetDynamicText(_world._playerPoints, "%i", 0);
     
-    InitDynamicText(_world._computerPoints, GetSpriteAsset(FONT_BITMAP_SPRITE));
-    _world._computerPoints.Position = COMPUTER_POINTS_TEXT_POSITION;
-    _world._computerPoints.TextSize = POINTS_TEXT_SIZE;
+    InitDynamicText(_world._computerPoints, GetSpriteAsset(Assets::FONT_BITMAP_SPRITE));
+    _world._computerPoints.Position = Scene::COMPUTER_POINTS_TEXT_POSITION;
+    _world._computerPoints.TextSize = Scene::POINTS_TEXT_SIZE;
     SetDynamicText(_world._computerPoints, "%i", 0);
     
 DEV(
     _fpsDelay = 0.0f;
     _frameCount = 0;
-    InitDynamicText(_world.Fps, GetSpriteAsset(FONT_BITMAP_SPRITE));
+    InitDynamicText(_world.Fps, GetSpriteAsset(Assets::FONT_BITMAP_SPRITE));
     _world.Fps.Position = FPS_TEXT_POSITION;
     _world.Fps.TextSize = FPS_TEXT_SIZE;
     SetDynamicText(_world.Fps, "%i", 0);
@@ -43,27 +43,27 @@ DEV(
     
     // Line Entities
     
-    _world.Borders[0].PositionA = _world.Borders[3].PositionB = glm::vec2(BOUNDS_BOTTOM_LEFT_X, BOUNDS_BOTTOM_LEFT_Y);
-    _world.Borders[0].PositionB = _world.Borders[1].PositionA = glm::vec2(BOUNDS_BOTTOM_LEFT_X, BOUNDS_TOP_RIGHT_Y);
-    _world.Borders[1].PositionB = _world.Borders[2].PositionA = glm::vec2(BOUNDS_TOP_RIGHT_X, BOUNDS_TOP_RIGHT_Y);
-    _world.Borders[2].PositionB = _world.Borders[3].PositionA = glm::vec2(BOUNDS_TOP_RIGHT_X, BOUNDS_BOTTOM_LEFT_Y);
+    _world.Borders[0].PositionA = _world.Borders[3].PositionB = glm::vec2(Scene::BOUNDS_BOTTOM_LEFT_X, Scene::BOUNDS_BOTTOM_LEFT_Y);
+    _world.Borders[0].PositionB = _world.Borders[1].PositionA = glm::vec2(Scene::BOUNDS_BOTTOM_LEFT_X, Scene::BOUNDS_TOP_RIGHT_Y);
+    _world.Borders[1].PositionB = _world.Borders[2].PositionA = glm::vec2(Scene::BOUNDS_TOP_RIGHT_X, Scene::BOUNDS_TOP_RIGHT_Y);
+    _world.Borders[2].PositionB = _world.Borders[3].PositionA = glm::vec2(Scene::BOUNDS_TOP_RIGHT_X, Scene::BOUNDS_BOTTOM_LEFT_Y);
     
     // Paddle Entities
     
-    float paddleY = (BOUNDS_TOP_RIGHT_Y + BOUNDS_BOTTOM_LEFT_Y) / 2.0f;
-    _world.Player.Texture = GetSpriteAsset(PADDLE_SPRITE);
+    float paddleY = (Scene::BOUNDS_TOP_RIGHT_Y + Scene::BOUNDS_BOTTOM_LEFT_Y) / 2.0f;
+    _world.Player.Texture = GetSpriteAsset(Assets::PADDLE_SPRITE);
     _world.Player.Size = GetTextureSize(_world.Player.Texture);
-    _world.Player.Position = glm::vec2(BOUNDS_BOTTOM_LEFT_X + 10, paddleY - (_world.Player.Size.y / 2.0f));
+    _world.Player.Position = glm::vec2(Scene::BOUNDS_BOTTOM_LEFT_X + 10, paddleY - (_world.Player.Size.y / 2.0f));
     
-    _world.Computer.Texture = GetSpriteAsset(PADDLE_SPRITE);
+    _world.Computer.Texture = GetSpriteAsset(Assets::PADDLE_SPRITE);
     _world.Computer.Size = GetTextureSize(_world.Computer.Texture);
-    _world.Computer.Position = glm::vec2(BOUNDS_TOP_RIGHT_X - _world.Computer.Size.x - 10, paddleY - (_world.Computer.Size.y / 2.0f));
+    _world.Computer.Position = glm::vec2(Scene::BOUNDS_TOP_RIGHT_X - _world.Computer.Size.x - 10, paddleY - (_world.Computer.Size.y / 2.0f));
     
     // Ball Entity
     
-    _world.Ball.Texture = GetSpriteAsset(BALL_SPRITE);
+    _world.Ball.Texture = GetSpriteAsset(Assets::BALL_SPRITE);
     _world.Ball.Size = GetTextureSize(_world.Ball.Texture);
-    _world.Ball.Position = glm::vec2(SCREEN_WIDTH - _world.Ball.Size.x, SCREEN_HEIGHT + _world.Ball.Size.y) / 2.0f;
+    _world.Ball.Position = glm::vec2(Screen::WIDTH - _world.Ball.Size.x, Screen::HEIGHT + _world.Ball.Size.y) / 2.0f;
     
     // GameState
     
@@ -72,20 +72,20 @@ DEV(
 }
 
 void StartGame() {
-    _world.Ball.Velocity = glm::normalize(glm::vec2(-1, 1)) * BALL_SPEED;
+    _world.Ball.Velocity = glm::normalize(glm::vec2(-1, 1)) * Game::BALL_SPEED;
     _hasGameStarted = true;
 }
 
 void EndGame() {
-    float paddleY = (BOUNDS_TOP_RIGHT_Y + BOUNDS_BOTTOM_LEFT_Y) / 2.0f;
+    float paddleY = (Scene::BOUNDS_TOP_RIGHT_Y + Scene::BOUNDS_BOTTOM_LEFT_Y) / 2.0f;
     
-    _world.Player.Position = glm::vec2(BOUNDS_BOTTOM_LEFT_X + 10, paddleY - (_world.Player.Size.y / 2.0f));
+    _world.Player.Position = glm::vec2(Scene::BOUNDS_BOTTOM_LEFT_X + 10, paddleY - (_world.Player.Size.y / 2.0f));
     _world.Player.Velocity = glm::vec2(0, 0);
     
-    _world.Computer.Position = glm::vec2(BOUNDS_TOP_RIGHT_X - _world.Computer.Size.x - 10, paddleY - (_world.Computer.Size.y / 2.0f));
+    _world.Computer.Position = glm::vec2(Scene::BOUNDS_TOP_RIGHT_X - _world.Computer.Size.x - 10, paddleY - (_world.Computer.Size.y / 2.0f));
     _world.Computer.Velocity = glm::vec2(0, 0);
     
-    _world.Ball.Position = glm::vec2(SCREEN_WIDTH - _world.Ball.Size.x, SCREEN_HEIGHT + _world.Ball.Size.y) / 2.0f;
+    _world.Ball.Position = glm::vec2(Screen::WIDTH - _world.Ball.Size.x, Screen::HEIGHT + _world.Ball.Size.y) / 2.0f;
     _world.Ball.Velocity = glm::vec2(0, 0);
     
     _hasGameStarted = false;
@@ -93,10 +93,10 @@ void EndGame() {
 
 void SetPlayerVelocity(Entity& player, const Input& input) {
     if (input.Up) {
-        player.Velocity.y = -PLAYER_SPEED;
+        player.Velocity.y = -Game::PLAYER_SPEED;
     }
     else if (input.Down) {
-        player.Velocity.y = PLAYER_SPEED;
+        player.Velocity.y = Game::PLAYER_SPEED;
     }
     else {
         player.Velocity.y = 0.0;
@@ -107,21 +107,21 @@ void SetComputerVelocity(Entity& computer, Entity& ball, float deltaTime) {
     float ballNextFrameY = ball.Position.y + (ball.Size.y / 2.0f) + (ball.Velocity.y * deltaTime);
     float computerY = computer.Position.y + (computer.Size.y / 2.0f);
     
-    if (glm::abs(ballNextFrameY - computerY) < COMPUTER_SPEED * deltaTime)
+    if (glm::abs(ballNextFrameY - computerY) < Game::COMPUTER_SPEED * deltaTime)
         computer.Velocity = glm::vec2(0, 0);
     else if (ballNextFrameY > computerY)
-        computer.Velocity = glm::vec2(0, COMPUTER_SPEED);
+        computer.Velocity = glm::vec2(0, Game::COMPUTER_SPEED);
     else
-        computer.Velocity = glm::vec2(0, -COMPUTER_SPEED);
+        computer.Velocity = glm::vec2(0, -Game::COMPUTER_SPEED);
 }
 
 int CheckEndGame() {
     float ballLeftX = _world.Ball.Position.x;
     float ballRightX = ballLeftX + _world.Ball.Size.x;
     
-    if (ballLeftX < BOUNDS_BOTTOM_LEFT_X)
+    if (ballLeftX < Scene::BOUNDS_BOTTOM_LEFT_X)
         return -1;
-    if (ballRightX > BOUNDS_TOP_RIGHT_X)
+    if (ballRightX > Scene::BOUNDS_TOP_RIGHT_X)
         return 1;
     
     return 0;
@@ -175,8 +175,8 @@ void RenderTick() {
     if (!_hasGameStarted)
         RenderEntity(_world.HeaderText);
     
-    RenderDynamicText(_world._playerPoints, POINTS_TEXT_COLOR);
-    RenderDynamicText(_world._computerPoints, POINTS_TEXT_COLOR);
+    RenderDynamicText(_world._playerPoints, Scene::POINTS_TEXT_COLOR);
+    RenderDynamicText(_world._computerPoints, Scene::POINTS_TEXT_COLOR);
     
     DEV(RenderDynamicText(_world.Fps, FPS_TEXT_COLOR));
     

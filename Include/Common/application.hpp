@@ -10,4 +10,9 @@
 #include "text.hpp"
 #include "game.hpp"
 
-void RunApp();
+namespace App {
+
+	extern char* EXECUTABLE_PATH;
+
+	void Run();
+}

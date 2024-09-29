@@ -15,8 +15,8 @@ void MoveEntities(World& world, float deltaTime) {
 }
 
 void ResolvePaddleWithWallCollision(Entity& paddle) {
-    float paddleMaxY = BOUNDS_BOTTOM_LEFT_Y - paddle.Size.y;
-    float paddleMinY = BOUNDS_TOP_RIGHT_Y;
+    float paddleMaxY = Scene::BOUNDS_BOTTOM_LEFT_Y - paddle.Size.y;
+    float paddleMinY = Scene::BOUNDS_TOP_RIGHT_Y;
     
     if (paddle.Position.y > paddleMaxY)
         paddle.Position.y = paddleMaxY;
@@ -25,8 +25,8 @@ void ResolvePaddleWithWallCollision(Entity& paddle) {
 }
 
 void ResolveBallWithWallCollision(Entity& ball) {
-    float ballMaxY = BOUNDS_BOTTOM_LEFT_Y - ball.Size.y;
-    float ballMinY = BOUNDS_TOP_RIGHT_Y;
+    float ballMaxY = Scene::BOUNDS_BOTTOM_LEFT_Y - ball.Size.y;
+    float ballMinY = Scene::BOUNDS_TOP_RIGHT_Y;
     
     if (ball.Position.y > ballMaxY)
         ball.Position.y = ballMaxY;
@@ -73,11 +73,11 @@ void ResolveBallWithPaddleCollision(Entity& ball, Entity& paddle) {
     if (paddleVelNorm.y != 0)
         paddleVelNorm.y = paddleVelNorm.y > 0.0 ? 1.0 : -1.0;
     
-    ball.Velocity = glm::normalize(ball.Velocity) * REFLECTION_WEIGHT;
-    ball.Velocity += glm::normalize(ballMid - paddleMid) * PADDLE_DEFLECTION_WEIGHT;
-    ball.Velocity += paddleVelNorm * PADDLE_VELOCITY_WEIGHT;
-    ball.Velocity /= REFLECTION_WEIGHT + PADDLE_DEFLECTION_WEIGHT + PADDLE_VELOCITY_WEIGHT;
-    ball.Velocity = glm::normalize(ball.Velocity) * BALL_SPEED;
+    ball.Velocity = glm::normalize(ball.Velocity) * Physics::REFLECTION_WEIGHT;
+    ball.Velocity += glm::normalize(ballMid - paddleMid) * Physics::PADDLE_DEFLECTION_WEIGHT;
+    ball.Velocity += paddleVelNorm * Physics::PADDLE_VELOCITY_WEIGHT;
+    ball.Velocity /= Physics::REFLECTION_WEIGHT + Physics::PADDLE_DEFLECTION_WEIGHT + Physics::PADDLE_VELOCITY_WEIGHT;
+    ball.Velocity = glm::normalize(ball.Velocity) * Game::BALL_SPEED; //maybe this logic should be in game.cpp?
 }
 
 void ResolveCollision(World& world) {

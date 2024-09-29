@@ -13,7 +13,7 @@ static std::unordered_map<int, TTF_Font*> _fonts;
 void InitDynamicTextBitmap() {
     tinyxml2::XMLDocument doc;
     
-    std::string fontMetaPath = GetAssetPath(FONT_META);
+    std::string fontMetaPath = GetAssetPath(Assets::FONT_META);
 
     if (doc.LoadFile(fontMetaPath.c_str()) != tinyxml2::XML_SUCCESS) {
         printf("Failed to load XML file: %s", fontMetaPath.c_str());
@@ -51,7 +51,7 @@ TTF_Font* GetFontAsset(int assetId) {
     std::string assetPath = GetAssetPath(assetId);
 
     if (_fonts.find(assetId) == _fonts.end())
-        _fonts.insert(std::make_pair(assetId, TTF_OpenFont(assetPath.c_str(), FONT_SIZE)));
+        _fonts.insert(std::make_pair(assetId, TTF_OpenFont(assetPath.c_str(), Scene::FONT_SIZE)));
 
     return _fonts[assetId];
 }
