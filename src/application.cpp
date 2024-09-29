@@ -5,7 +5,7 @@ namespace App {
     char* EXECUTABLE_PATH;
 
     static SDL_Window* _window;
-    static Input _input;
+    static Input::InputKeys _input;
     static float _timeScale = 1.0;
 
     void InitSDL() {
@@ -37,7 +37,7 @@ namespace App {
     }
 
     void Cleanup() {
-        DestroyGame();
+        Game::DestroyGame();
         SDL_DestroyWindow(_window);
     }
 
@@ -45,8 +45,7 @@ namespace App {
         InitSDL();
         InitWindow();
         InitAssetManager(EXECUTABLE_PATH);
-        InitDynamicTextBitmap();
-        InitGame(_window);
+        Game::InitGame(_window);
 
         atexit(Cleanup);
     }
@@ -60,7 +59,7 @@ namespace App {
 
         while (true)
         {
-            GetInput(_input);
+            Input::GetInput(_input);
 
             Uint64 currTime = SDL_GetPerformanceCounter();
             deltaTime = (currTime - prevTime) / freqMs;
@@ -74,9 +73,9 @@ namespace App {
             _timeScale = glm::clamp<double>(_timeScale, 0.01, 10);
     )
 
-            LogicTick(_input, deltaTime * _timeScale);
-            PhysicsTick(deltaTime * _timeScale);
-            RenderTick();
+            Game::LogicTick(_input, deltaTime * _timeScale);
+            Game::PhysicsTick(deltaTime * _timeScale);
+            Game::RenderTick();
         }
     }
 }

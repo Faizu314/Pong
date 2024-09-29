@@ -10,7 +10,14 @@
 #include "common.hpp"
 #include "asset_manager.hpp"
 
-void InitDynamicTextBitmap();
-TTF_Font* GetFontAsset(int assetId);
-void InitDynamicText(DynamicText& textObj, SDL_Texture* fontImage);
-void SetDynamicText(DynamicText& textObj, const char* text, ...);
+namespace Assets {
+
+	TTF_Font* GetFontAsset(int assetId);
+}
+
+namespace Game {
+
+	void InitDynamicTextBitmap();
+	void InitDynamicText(DynamicText& textObj, SDL_Texture* fontImage);
+	void SetDynamicText(DynamicText& textObj, const char* text, ...);
+}

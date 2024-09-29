@@ -77,13 +77,13 @@ namespace Game {
     constexpr float PLAYER_SPEED = 300;
     constexpr float COMPUTER_SPEED = 200;
     constexpr float BALL_SPEED = 350;
-}
 
-namespace Physics {
+    namespace Physics {
 
-    // These are factors that effect ball's angle after collision
+        // These are factors that effect ball's angle after collision
 
-    constexpr float REFLECTION_WEIGHT = 1.0;
-    constexpr float PADDLE_DEFLECTION_WEIGHT = 1.0;
-    constexpr float PADDLE_VELOCITY_WEIGHT = 1.0;
+        constexpr float REFLECTION_WEIGHT = 1.0;
+        constexpr float PADDLE_DEFLECTION_WEIGHT = 1.0;
+        constexpr float PADDLE_VELOCITY_WEIGHT = 1.0;
+    }
 }

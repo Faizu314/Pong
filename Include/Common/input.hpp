@@ -2,4 +2,7 @@
 
 #include "common.hpp"
 
-void GetInput(Input& input);
+namespace Input {
+
+	void GetInput(InputKeys& input);
+}

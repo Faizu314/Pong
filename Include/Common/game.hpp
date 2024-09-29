@@ -5,8 +5,11 @@
 #include "physics.hpp"
 #include "text.hpp"
 
-void InitGame(SDL_Window* window);
-void LogicTick(const Input& input, float deltaTime);
-void PhysicsTick(float deltaTime);
-void RenderTick();
-void DestroyGame();
+namespace Game {
+
+	void InitGame(SDL_Window* window);
+	void LogicTick(const Input::InputKeys& input, float deltaTime);
+	void PhysicsTick(float deltaTime);
+	void RenderTick();
+	void DestroyGame();
+}
