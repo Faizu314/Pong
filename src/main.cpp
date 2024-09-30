@@ -29,10 +29,27 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 #elif __APPLE__
 
-int main(int argc, const char* argv[]) {
-    EXECUTABLE_PATH = argv[0];
+#include <mach-o/dyld.h>
+#include <limits.h>
 
-    RunApp();
+std::string GetExePath() {
+    char buf[PATH_MAX];
+    uint32_t bufsize = PATH_MAX;
+    std::string exePath;
+    
+    if (!_NSGetExecutablePath(buf, &bufsize)) {
+        exePath = std::string(buf);
+        exePath = exePath.substr(0, exePath.find_last_of("/"));
+    }
+    
+    return exePath;
+}
+
+int main(int argc, const char* argv[]) {
+    std::string exePath = GetExePath();
+    
+    App::EXECUTABLE_PATH = &exePath[0];
+    App::Run();
 }
 
 #endif
