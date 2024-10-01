@@ -2,10 +2,10 @@
 
 namespace Assets {
 
-    static char* _executablePath;
+    static std::string _executablePath;
 
-    void InitAssetManager(char* exePath) {
-        _executablePath = exePath;
+    void InitAssetManager() {
+        _executablePath = App::GetExePath();
     }
 
     std::string GetAssetPath(int assetId) {
@@ -14,7 +14,7 @@ namespace Assets {
             return std::string();
         }
 
-        return std::string(_executablePath) + std::string(Assets::ASSET_RELATIVE_PATHS[assetId]);
+        return _executablePath + std::string(Assets::ASSET_RELATIVE_PATHS[assetId]);
     }
 
     void DestroyAssets() {

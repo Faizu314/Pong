@@ -2,8 +2,6 @@
 
 namespace App {
 
-    char* EXECUTABLE_PATH;
-
     static SDL_Window* _window;
     static Input::InputKeys _input;
     static float _timeScale = 1.0;
@@ -45,7 +43,7 @@ namespace App {
     void Init() {
         InitSDL();
         InitWindow();
-        Assets::InitAssetManager(EXECUTABLE_PATH);
+        Assets::InitAssetManager();
         Game::InitGame(_window);
 
         atexit(Cleanup);
