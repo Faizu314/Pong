@@ -9,7 +9,7 @@ namespace Assets {
     }
 
     std::string GetAssetPath(int assetId) {
-        if (assetId < 0 || assetId > Assets::ASSETS_COUNT) {
+        if (assetId < 0 || assetId >= Assets::ASSETS_COUNT) {
             printf("Invalid spriteId");
             return std::string();
         }
