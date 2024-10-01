@@ -7,9 +7,9 @@
 
 namespace Game {
 
-	void InitGame(SDL_Window* window);
+	void Init(SDL_Window* window);
 	void LogicTick(const Input::InputKeys& input, float deltaTime);
 	void PhysicsTick(float deltaTime);
 	void RenderTick();
-	void DestroyGame();
+	void Destroy();
 }

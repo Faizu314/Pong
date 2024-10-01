@@ -13,7 +13,7 @@ namespace Game {
         return _hasGameStarted;
     }
 
-    void InitGame(SDL_Window* window) {
+    void Init(SDL_Window* window) {
         Renderer::InitRenderer(window);
 
         Assets::DynamicFontAsset* dynamicFont = 
@@ -188,7 +188,7 @@ namespace Game {
         Renderer::RenderFrame();
     }
 
-    void DestroyGame() {
+    void Destroy() {
         delete _world.PlayerPoints.Selection;
         delete _world.ComputerPoints.Selection;
 

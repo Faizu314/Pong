@@ -12,7 +12,5 @@
 
 namespace App {
 
-	extern char* EXECUTABLE_PATH;
-
 	void Run();
 }

@@ -8,7 +8,7 @@
 
 namespace Assets {
 
-    void InitAssetManager();
+    void Init();
     std::string GetAssetPath(int assetId);
-    void DestroyAssets();
+    void Destroy();
 }

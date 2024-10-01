@@ -12,7 +12,10 @@ namespace App {
             exit(1);
         }
 
-        IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
+        if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) < 0){
+            printf("Couldn't initialize SDL: %s\n", SDL_GetError());
+            exit(1);
+        }
 
         if (TTF_Init() < 0) {
             printf("Failed to init TTF: %s\n", SDL_GetError());
@@ -35,16 +38,16 @@ namespace App {
     }
 
     void Cleanup() {
-        Game::DestroyGame();
-        Assets::DestroyAssets();
+        Game::Destroy();
+        Assets::Destroy();
         SDL_DestroyWindow(_window);
     }
 
     void Init() {
         InitSDL();
         InitWindow();
-        Assets::InitAssetManager();
-        Game::InitGame(_window);
+        Assets::Init();
+        Game::Init(_window);
 
         atexit(Cleanup);
     }

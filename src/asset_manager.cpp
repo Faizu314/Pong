@@ -4,7 +4,7 @@ namespace Assets {
 
     static std::string _executablePath;
 
-    void InitAssetManager() {
+    void Init() {
         _executablePath = App::GetExePath();
     }
 
@@ -17,7 +17,7 @@ namespace Assets {
         return _executablePath + std::string(Assets::ASSET_RELATIVE_PATHS[assetId]);
     }
 
-    void DestroyAssets() {
+    void Destroy() {
         DestroyDynamicFonts();
     }
 }
