@@ -1,5 +1,7 @@
 #pragma once
 
+#include <unordered_map>
+
 #include <SDL2/SDL.h>
 #include <glm/glm.hpp>
 #include <glm/ext/vector_float2.hpp>
@@ -17,6 +19,21 @@ namespace Input {
     } InputKeys;
 }
 
+namespace Assets {
+
+    typedef struct {
+        uint8_t x;
+        uint8_t y;
+    } Vector2Int;
+
+    typedef struct {
+        std::unordered_map<int, int> IndexToUnicode;
+        Vector2Int CharacterSize;
+        Vector2Int BitmapSize;
+        SDL_Texture* Bitmap;
+    } DynamicFontAsset;
+}
+
 namespace Game {
 
     typedef struct {
@@ -31,7 +48,7 @@ namespace Game {
         SDL_Rect* Selection;
         uint32_t CharCount;
         SDL_Point TextSize;
-        int DynamicFontAssetId;
+        Assets::DynamicFontAsset* DynamicFont;
     } DynamicText;
 
     typedef struct {
@@ -39,7 +56,7 @@ namespace Game {
         glm::vec2 PositionB;
     } Line;
 
-    struct World {
+    typedef struct {
         Entity HeaderText;
         DynamicText PlayerPoints;
         DynamicText ComputerPoints;
@@ -51,5 +68,5 @@ namespace Game {
         DEV(
             DynamicText Fps;
         );
-    };
+    } World;
 }

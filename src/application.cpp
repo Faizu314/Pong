@@ -38,13 +38,14 @@ namespace App {
 
     void Cleanup() {
         Game::DestroyGame();
+        Assets::DestroyAssets();
         SDL_DestroyWindow(_window);
     }
 
     void Init() {
         InitSDL();
         InitWindow();
-        InitAssetManager(EXECUTABLE_PATH);
+        Assets::InitAssetManager(EXECUTABLE_PATH);
         Game::InitGame(_window);
 
         atexit(Cleanup);

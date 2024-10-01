@@ -4,8 +4,8 @@ namespace Game {
 
     static World _world;
     static bool _hasGameStarted;
-    static int PlayerPoints;
-    static int ComputerPoints;
+    static int _playerPoints;
+    static int _computerPoints;
 
     DEV(float _fpsDelay; int _frameCount;)
 
@@ -16,7 +16,7 @@ namespace Game {
     void InitGame(SDL_Window* window) {
         Renderer::InitRenderer(window);
 
-        const Assets::DynamicFontAsset* dynamicFont = 
+        Assets::DynamicFontAsset* dynamicFont = 
             Assets::CreateDynamicFontAsset(Renderer::GetSpriteAsset(Assets::FONT_BITMAP_SPRITE), Assets::FONT_META);
 
         memset(&_world, 0, sizeof(_world));
@@ -27,12 +27,12 @@ namespace Game {
         _world.HeaderText.Size = Scene::HEADER_TEXT_RECT_SIZE;
         _world.HeaderText.Position = glm::vec2(Scene::HEADER_TEXT_RECT_CENTER.x - (Scene::HEADER_TEXT_RECT_SIZE.x / 2.0f), Scene::HEADER_TEXT_RECT_CENTER.y - (Scene::HEADER_TEXT_RECT_SIZE.y / 2.0f));
 
-        _world.PlayerPoints = DynamicText(dynamicFont);
+        _world.PlayerPoints.DynamicFont = dynamicFont;
         _world.PlayerPoints.Position = Scene::PLAYER_POINTS_TEXT_POSITION;
         _world.PlayerPoints.TextSize = Scene::POINTS_TEXT_SIZE;
         SetDynamicText(_world.PlayerPoints, "%i", 0);
 
-        _world.ComputerPoints = DynamicText(dynamicFont);
+        _world.ComputerPoints.DynamicFont = dynamicFont;
         _world.ComputerPoints.Position = Scene::COMPUTER_POINTS_TEXT_POSITION;
         _world.ComputerPoints.TextSize = Scene::POINTS_TEXT_SIZE;
         SetDynamicText(_world.ComputerPoints, "%i", 0);
@@ -40,7 +40,7 @@ namespace Game {
         DEV(
             _fpsDelay = 0.0f;
             _frameCount = 0;
-            InitDynamicText(_world.Fps, GetSpriteAsset(Assets::FONT_BITMAP_SPRITE));
+            _world.Fps.DynamicFont = dynamicFont;
             _world.Fps.Position = FPS_TEXT_POSITION;
             _world.Fps.TextSize = FPS_TEXT_SIZE;
             SetDynamicText(_world.Fps, "%i", 0);
@@ -73,7 +73,7 @@ namespace Game {
         // GameState
 
         _hasGameStarted = false;
-        PlayerPoints = ComputerPoints = 0;
+        _playerPoints = _computerPoints = 0;
     }
 
     void StartGame() {
@@ -139,9 +139,9 @@ namespace Game {
 
             if (int point = CheckEndGame()) {
                 if (point > 0)
-                    SetDynamicText(_world.PlayerPoints, "%i", ++PlayerPoints);
+                    SetDynamicText(_world.PlayerPoints, "%i", ++_playerPoints);
                 else
-                    SetDynamicText(_world.ComputerPoints, "%i", ++ComputerPoints);
+                    SetDynamicText(_world.ComputerPoints, "%i", ++_computerPoints);
                 EndGame();
             }
         }

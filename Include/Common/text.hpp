@@ -11,20 +11,8 @@
 #include "asset_manager.hpp"
 
 namespace Assets {
-    typedef struct {
-        uint8_t x;
-        uint8_t y;
-    } Vector2Int;
 
-    typedef struct {
-        std::unordered_map<int, int> IndexToUnicode;
-        Vector2Int CharacterSize;
-        Vector2Int BitmapSize;
-        SDL_Texture* Bitmap;
-    } DynamicFontAsset;
-
-	int CreateDynamicFontAsset(SDL_Texture* bitmap, int fontMetaDataId);
-    const DynamicFontAsset* GetDynamicFontAsset(int dynamicFontAssetId);
+	DynamicFontAsset* CreateDynamicFontAsset(SDL_Texture* bitmap, int fontMetaDataId);
     TTF_Font* GetFontAsset(int fontAssetId);
     void DestroyDynamicFonts();
 }

@@ -43,8 +43,9 @@ namespace Assets {
         }
 
         font->Bitmap = bitmap;
-
-        _dynamicFonts.insert(std::make_pair(_dynamicFonts.size(), font));
+        int fontId = _dynamicFonts.size();
+        
+        _dynamicFonts.insert(std::make_pair(fontId, font));
 
         return font;
     }

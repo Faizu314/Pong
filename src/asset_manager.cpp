@@ -16,4 +16,8 @@ namespace Assets {
 
         return std::string(_executablePath) + std::string(Assets::ASSET_RELATIVE_PATHS[assetId]);
     }
+
+    void DestroyAssets() {
+        DestroyDynamicFonts();
+    }
 }
