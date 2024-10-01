@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 # Add source files
 set(SOURCES
     src/main.cpp
+    src/platform_utils.cpp
     src/application.cpp
     src/asset_manager.cpp
     src/game.cpp
@@ -21,6 +22,7 @@ set(HEADERS
     include/common/common.hpp
     include/common/defs.hpp
     include/common/structs.hpp
+    include/common/platform_utils.hpp
     include/common/application.hpp
     include/common/asset_manager.hpp
     include/common/game.hpp
