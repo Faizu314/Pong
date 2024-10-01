@@ -64,7 +64,7 @@ namespace Game::Renderer {
 
     //Really not sure how to decouple asset management from renderer
     SDL_Texture* GetSpriteAsset(int assetId) {
-        std::string assetPath = GetAssetPath(assetId);
+        std::string assetPath = Assets::GetAssetPath(assetId);
 
         if (_sprites.find(assetId) == _sprites.end())
             _sprites.insert(std::make_pair(assetId, LoadTexture(assetPath.c_str())));
@@ -104,7 +104,7 @@ namespace Game::Renderer {
         int x = text.Position.x;
         int y = text.Position.y;
         for (uint32_t i = 0; i < text.CharCount; i++) {
-            Blit(text.Texture, text.Selection[i], x, y, text.TextSize, tint);
+            Blit(text.DynamicFont->Bitmap, text.Selection[i], x, y, text.TextSize, tint);
             x += text.TextSize.x;
         }
     }

@@ -11,13 +11,25 @@
 #include "asset_manager.hpp"
 
 namespace Assets {
+    typedef struct {
+        uint8_t x;
+        uint8_t y;
+    } Vector2Int;
 
-	TTF_Font* GetFontAsset(int assetId);
+    typedef struct {
+        std::unordered_map<int, int> IndexToUnicode;
+        Vector2Int CharacterSize;
+        Vector2Int BitmapSize;
+        SDL_Texture* Bitmap;
+    } DynamicFontAsset;
+
+	int CreateDynamicFontAsset(SDL_Texture* bitmap, int fontMetaDataId);
+    const DynamicFontAsset* GetDynamicFontAsset(int dynamicFontAssetId);
+    TTF_Font* GetFontAsset(int fontAssetId);
+    void DestroyDynamicFonts();
 }
 
 namespace Game {
 
-	void InitDynamicTextBitmap();
-	void InitDynamicText(DynamicText& textObj, SDL_Texture* fontImage);
 	void SetDynamicText(DynamicText& textObj, const char* text, ...);
 }

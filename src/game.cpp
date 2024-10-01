@@ -4,8 +4,8 @@ namespace Game {
 
     static World _world;
     static bool _hasGameStarted;
-    static int _playerPoints;
-    static int _computerPoints;
+    static int PlayerPoints;
+    static int ComputerPoints;
 
     DEV(float _fpsDelay; int _frameCount;)
 
@@ -14,8 +14,10 @@ namespace Game {
     }
 
     void InitGame(SDL_Window* window) {
-        InitDynamicTextBitmap();
         Renderer::InitRenderer(window);
+
+        const Assets::DynamicFontAsset* dynamicFont = 
+            Assets::CreateDynamicFontAsset(Renderer::GetSpriteAsset(Assets::FONT_BITMAP_SPRITE), Assets::FONT_META);
 
         memset(&_world, 0, sizeof(_world));
 
@@ -25,15 +27,15 @@ namespace Game {
         _world.HeaderText.Size = Scene::HEADER_TEXT_RECT_SIZE;
         _world.HeaderText.Position = glm::vec2(Scene::HEADER_TEXT_RECT_CENTER.x - (Scene::HEADER_TEXT_RECT_SIZE.x / 2.0f), Scene::HEADER_TEXT_RECT_CENTER.y - (Scene::HEADER_TEXT_RECT_SIZE.y / 2.0f));
 
-        InitDynamicText(_world._playerPoints, Renderer::GetSpriteAsset(Assets::FONT_BITMAP_SPRITE));
-        _world._playerPoints.Position = Scene::PLAYER_POINTS_TEXT_POSITION;
-        _world._playerPoints.TextSize = Scene::POINTS_TEXT_SIZE;
-        SetDynamicText(_world._playerPoints, "%i", 0);
+        _world.PlayerPoints = DynamicText(dynamicFont);
+        _world.PlayerPoints.Position = Scene::PLAYER_POINTS_TEXT_POSITION;
+        _world.PlayerPoints.TextSize = Scene::POINTS_TEXT_SIZE;
+        SetDynamicText(_world.PlayerPoints, "%i", 0);
 
-        InitDynamicText(_world._computerPoints, Renderer::GetSpriteAsset(Assets::FONT_BITMAP_SPRITE));
-        _world._computerPoints.Position = Scene::COMPUTER_POINTS_TEXT_POSITION;
-        _world._computerPoints.TextSize = Scene::POINTS_TEXT_SIZE;
-        SetDynamicText(_world._computerPoints, "%i", 0);
+        _world.ComputerPoints = DynamicText(dynamicFont);
+        _world.ComputerPoints.Position = Scene::COMPUTER_POINTS_TEXT_POSITION;
+        _world.ComputerPoints.TextSize = Scene::POINTS_TEXT_SIZE;
+        SetDynamicText(_world.ComputerPoints, "%i", 0);
 
         DEV(
             _fpsDelay = 0.0f;
@@ -71,7 +73,7 @@ namespace Game {
         // GameState
 
         _hasGameStarted = false;
-        _playerPoints = _computerPoints = 0;
+        PlayerPoints = ComputerPoints = 0;
     }
 
     void StartGame() {
@@ -137,9 +139,9 @@ namespace Game {
 
             if (int point = CheckEndGame()) {
                 if (point > 0)
-                    SetDynamicText(_world._playerPoints, "%i", ++_playerPoints);
+                    SetDynamicText(_world.PlayerPoints, "%i", ++PlayerPoints);
                 else
-                    SetDynamicText(_world._computerPoints, "%i", ++_computerPoints);
+                    SetDynamicText(_world.ComputerPoints, "%i", ++ComputerPoints);
                 EndGame();
             }
         }
@@ -178,8 +180,8 @@ namespace Game {
         if (!_hasGameStarted)
             Renderer::RenderEntity(_world.HeaderText);
 
-        Renderer::RenderDynamicText(_world._playerPoints, Scene::POINTS_TEXT_COLOR);
-        Renderer::RenderDynamicText(_world._computerPoints, Scene::POINTS_TEXT_COLOR);
+        Renderer::RenderDynamicText(_world.PlayerPoints, Scene::POINTS_TEXT_COLOR);
+        Renderer::RenderDynamicText(_world.ComputerPoints, Scene::POINTS_TEXT_COLOR);
 
         DEV(RenderDynamicText(_world.Fps, FPS_TEXT_COLOR));
 
@@ -187,8 +189,8 @@ namespace Game {
     }
 
     void DestroyGame() {
-        delete _world._playerPoints.Selection;
-        delete _world._computerPoints.Selection;
+        delete _world.PlayerPoints.Selection;
+        delete _world.ComputerPoints.Selection;
 
         DEV(delete _world.Fps.Selection);
 

@@ -4,5 +4,8 @@
 
 #include "common.hpp"
 
-void InitAssetManager(char* execPath);
-std::string GetAssetPath(int assetId);
+namespace Assets {
+
+	void InitAssetManager(char* execPath);
+	std::string GetAssetPath(int assetId);
+}

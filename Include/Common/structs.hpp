@@ -31,7 +31,7 @@ namespace Game {
         SDL_Rect* Selection;
         uint32_t CharCount;
         SDL_Point TextSize;
-        SDL_Texture* Texture;
+        int DynamicFontAssetId;
     } DynamicText;
 
     typedef struct {
@@ -39,10 +39,10 @@ namespace Game {
         glm::vec2 PositionB;
     } Line;
 
-    typedef struct {
+    struct World {
         Entity HeaderText;
-        DynamicText _playerPoints;
-        DynamicText _computerPoints;
+        DynamicText PlayerPoints;
+        DynamicText ComputerPoints;
         Entity Player;
         Entity Computer;
         Entity Ball;
@@ -50,7 +50,6 @@ namespace Game {
 
         DEV(
             DynamicText Fps;
-        )
-
-    } World;
+        );
+    };
 }

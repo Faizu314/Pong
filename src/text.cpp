@@ -1,51 +1,33 @@
 #include "text.hpp"
 
 namespace Assets {
-    static std::unordered_map<int, TTF_Font*> _fonts;
 
-    TTF_Font* GetFontAsset(int assetId) {
-        std::string assetPath = GetAssetPath(assetId);
+    static std::unordered_map<int, DynamicFontAsset*> _dynamicFonts;
+    static std::unordered_map<int, TTF_Font*> _sdlFonts;
 
-        if (_fonts.find(assetId) == _fonts.end())
-            _fonts.insert(std::make_pair(assetId, TTF_OpenFont(assetPath.c_str(), Scene::FONT_SIZE)));
-
-        return _fonts[assetId];
-    }
-}
-
-namespace Game {
-
-    typedef struct {
-        uint8_t x;
-        uint8_t y;
-    } Vector2Int;
-
-    static Vector2Int _characterSize;
-    static Vector2Int _bitmapSize;
-    static std::unordered_map<int, int> _unicodes;
-
-    void InitDynamicTextBitmap() {
+    DynamicFontAsset* CreateDynamicFontAsset(SDL_Texture* bitmap, int fontMetaDataId) {
+        DynamicFontAsset* font = new DynamicFontAsset();
         tinyxml2::XMLDocument doc;
 
-        std::string fontMetaPath = GetAssetPath(Assets::FONT_META);
+        std::string fontMetaPath = GetAssetPath(fontMetaDataId);
 
         if (doc.LoadFile(fontMetaPath.c_str()) != tinyxml2::XML_SUCCESS) {
             printf("Failed to load XML file: %s", fontMetaPath.c_str());
-            return;
+            return nullptr;
         }
 
         // Extract CharacterSize
         tinyxml2::XMLElement* charSizeElement = doc.FirstChildElement("BitmapFont")->FirstChildElement("CharacterSize");
         if (charSizeElement) {
-            charSizeElement->QueryUnsignedAttribute("width", reinterpret_cast<unsigned int*>(&_characterSize.x));
-            charSizeElement->QueryUnsignedAttribute("height", reinterpret_cast<unsigned int*>(&_characterSize.y));
+            charSizeElement->QueryUnsignedAttribute("width", reinterpret_cast<unsigned int*>(&font->CharacterSize.x));
+            charSizeElement->QueryUnsignedAttribute("height", reinterpret_cast<unsigned int*>(&font->CharacterSize.y));
         }
 
         // Extract SpriteSheet size
         tinyxml2::XMLElement* spriteSheetElement = doc.FirstChildElement("BitmapFont")->FirstChildElement("SpriteSheetSize");
         if (spriteSheetElement) {
-            spriteSheetElement->QueryUnsignedAttribute("sizeX", reinterpret_cast<unsigned int*>(&_bitmapSize.x));
-            spriteSheetElement->QueryUnsignedAttribute("sizeY", reinterpret_cast<unsigned int*>(&_bitmapSize.y));
+            spriteSheetElement->QueryUnsignedAttribute("sizeX", reinterpret_cast<unsigned int*>(&font->BitmapSize.x));
+            spriteSheetElement->QueryUnsignedAttribute("sizeY", reinterpret_cast<unsigned int*>(&font->BitmapSize.y));
         }
 
         uint32_t index = 0;
@@ -56,15 +38,34 @@ namespace Game {
             for (tinyxml2::XMLElement* characterElement = characterArray->FirstChildElement("Character"); characterElement != nullptr; characterElement = characterElement->NextSiblingElement("Character")) {
                 int unicode;
                 characterElement->QueryIntAttribute("unicode", &unicode);
-                _unicodes[unicode] = index++;
+                font->IndexToUnicode[unicode] = index++;
             }
         }
+
+        font->Bitmap = bitmap;
+
+        _dynamicFonts.insert(std::make_pair(_dynamicFonts.size(), font));
+
+        return font;
     }
 
-    void InitDynamicText(DynamicText& textObj, SDL_Texture* fontImage) {
-        memset(&textObj, 0, sizeof(textObj));
-        textObj.Texture = fontImage;
+    TTF_Font* GetFontAsset(int assetId) {
+        std::string assetPath = GetAssetPath(assetId);
+
+        if (_sdlFonts.find(assetId) == _sdlFonts.end())
+            _sdlFonts.insert(std::make_pair(assetId, TTF_OpenFont(assetPath.c_str(), Scene::FONT_SIZE)));
+
+        return _sdlFonts[assetId];
     }
+
+    void DestroyDynamicFonts() {
+        for (const auto& pair : _dynamicFonts) {
+            delete pair.second;
+        }
+    }
+}
+
+namespace Game {
 
     void SetDynamicText(DynamicText& textObj, const char* text, ...) {
         va_list args;
@@ -89,14 +90,14 @@ namespace Game {
         }
 
         for (int i = 0; i < length; i++) {
-            int index = _unicodes[formattedText[i]];
-            int indexX = index % _bitmapSize.x;
-            int indexY = index / _bitmapSize.x;
+            int index = textObj.DynamicFont->IndexToUnicode[formattedText[i]];
+            int indexX = index % textObj.DynamicFont->BitmapSize.x;
+            int indexY = index / textObj.DynamicFont->BitmapSize.x;
 
-            textObj.Selection[i].x = indexX * _characterSize.x;
-            textObj.Selection[i].y = indexY * _characterSize.y;
-            textObj.Selection[i].w = _characterSize.x;
-            textObj.Selection[i].h = _characterSize.y;
+            textObj.Selection[i].x = indexX * textObj.DynamicFont->CharacterSize.x;
+            textObj.Selection[i].y = indexY * textObj.DynamicFont->CharacterSize.y;
+            textObj.Selection[i].w = textObj.DynamicFont->CharacterSize.x;
+            textObj.Selection[i].h = textObj.DynamicFont->CharacterSize.y;
         }
 
         delete[] formattedText;
