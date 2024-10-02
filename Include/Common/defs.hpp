@@ -61,7 +61,7 @@ namespace Assets {
     constexpr int FONT_TTF = 3;
     constexpr int FONT_META = 4;
 
-    constexpr char* ASSET_RELATIVE_PATHS[ASSETS_COUNT] = {
+    constexpr const char* ASSET_RELATIVE_PATHS[ASSETS_COUNT] = {
         "/Assets/Sprites/Paddle.png",
         "/Assets/Sprites/Ball.png",
         "/Assets/Fonts/NullTerminator_Bitmap.png",
