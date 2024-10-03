@@ -9,7 +9,7 @@ namespace Game {
 
     DEV(float _fpsDelay; int _frameCount;)
 
-        bool HasGameStarted() {
+    bool HasGameStarted() {
         return _hasGameStarted;
     }
 

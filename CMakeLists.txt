@@ -8,6 +8,7 @@ set(SOURCES
     src/main.cpp
     src/platform_utils.cpp
     src/application.cpp
+    src/logger.cpp
     src/asset_manager.cpp
     src/game.cpp
     src/input.cpp
@@ -24,6 +25,7 @@ set(HEADERS
     include/common/structs.hpp
     include/common/platform_utils.hpp
     include/common/application.hpp
+    include/common/logger.hpp
     include/common/asset_manager.hpp
     include/common/game.hpp
     include/common/input.hpp
