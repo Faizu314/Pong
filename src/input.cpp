@@ -6,32 +6,50 @@ namespace Input {
         if (event->repeat > 0)
             return;
 
-        if (event->keysym.scancode == SDL_SCANCODE_UP)
-            input.Up = true;
-        if (event->keysym.scancode == SDL_SCANCODE_DOWN)
-            input.Down = true;
-        if (event->keysym.scancode == SDL_SCANCODE_LEFT)
-            input.Left = true;
-        if (event->keysym.scancode == SDL_SCANCODE_RIGHT)
-            input.Right = true;
-        if (event->keysym.scancode == SDL_SCANCODE_SPACE)
-            input.Space = true;
+        switch (event->keysym.scancode) {
+            case SDL_SCANCODE_UP:
+                input.Up = true;
+                break;
+            case SDL_SCANCODE_DOWN:
+                input.Down = true;
+                break;
+            case SDL_SCANCODE_LEFT:
+                input.Left = true;
+                break;
+            case SDL_SCANCODE_RIGHT:
+                input.Right = true;
+                break;
+            case SDL_SCANCODE_SPACE:
+                input.Space = true;
+                break;
+            default:
+                break;
+        }
     }
 
     static void ProcessKeyUpEvent(InputKeys& input, const SDL_KeyboardEvent* event) {
         if (event->repeat > 0)
             return;
 
-        if (event->keysym.scancode == SDL_SCANCODE_UP)
-            input.Up = false;
-        if (event->keysym.scancode == SDL_SCANCODE_DOWN)
-            input.Down = false;
-        if (event->keysym.scancode == SDL_SCANCODE_LEFT)
-            input.Left = false;
-        if (event->keysym.scancode == SDL_SCANCODE_RIGHT)
-            input.Right = false;
-        if (event->keysym.scancode == SDL_SCANCODE_SPACE)
-            input.Space = false;
+        switch (event->keysym.scancode) {
+            case SDL_SCANCODE_UP:
+                input.Up = false;
+                break;
+            case SDL_SCANCODE_DOWN:
+                input.Down = false;
+                break;
+            case SDL_SCANCODE_LEFT:
+                input.Left = false;
+                break;
+            case SDL_SCANCODE_RIGHT:
+                input.Right = false;
+                break;
+            case SDL_SCANCODE_SPACE:
+                input.Space = false;
+                break;
+            default:
+                break;
+        }
     }
 
     void GetInput(InputKeys& input) {

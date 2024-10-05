@@ -51,15 +51,15 @@ namespace Game::Renderer {
     }
 
     static SDL_Texture* LoadTexture(const char* filename) {
-        SDL_Texture* Texture;
+        SDL_Texture* texture;
 
-        Texture = IMG_LoadTexture(_renderer, filename);
+        texture = IMG_LoadTexture(_renderer, filename);
 
-        if (!Texture) {
+        if (!texture) {
             Logging::Log("Unable to load texture %s\n", filename);
         }
 
-        return Texture;
+        return texture;
     }
 
     //Really not sure how to decouple asset management from renderer

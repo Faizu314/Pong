@@ -3,11 +3,7 @@
 namespace Game::Physics {
 
     int sign(float v) {
-        if (v > 0)
-            return 1;
-        if (v < 0)
-            return -1;
-        return 0;
+        return (v > 0) - (v < 0);
     }
 
     void MoveEntities(World& world, float deltaTime) {
