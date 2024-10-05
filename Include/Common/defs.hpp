@@ -87,3 +87,8 @@ namespace Game {
         constexpr float PADDLE_VELOCITY_WEIGHT = 1.0;
     }
 }
+
+namespace Logging {
+    
+    constexpr int LOG_BUFFER_SIZE = 256;
+}

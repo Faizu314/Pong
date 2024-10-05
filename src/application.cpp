@@ -8,17 +8,17 @@ namespace App {
 
     void InitSDL() {
         if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-            printf("Couldn't initialize SDL: %s\n", SDL_GetError());
+            Logging::Log("Couldn't initialize SDL: %s\n", SDL_GetError());
             exit(1);
         }
 
         if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) < 0){
-            printf("Couldn't initialize SDL: %s\n", SDL_GetError());
+            Logging::Log("Couldn't initialize SDL: %s\n", SDL_GetError());
             exit(1);
         }
 
         if (TTF_Init() < 0) {
-            printf("Failed to init TTF: %s\n", SDL_GetError());
+            Logging::Log("Failed to init TTF: %s\n", SDL_GetError());
             exit(1);
         }
     }
@@ -30,7 +30,7 @@ namespace App {
             SDL_CreateWindow("Pong", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Screen::WIDTH, Screen::HEIGHT, windowsFlag);
 
         if (!_window) {
-            printf("Failed to open %d x %d window: %s\n", Screen::WIDTH, Screen::HEIGHT, SDL_GetError());
+            Logging::Log("Failed to open %d x %d window: %s\n", Screen::WIDTH, Screen::HEIGHT, SDL_GetError());
             exit(1);
         }
 

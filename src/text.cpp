@@ -12,7 +12,7 @@ namespace Assets {
         std::string fontMetaPath = GetAssetPath(fontMetaDataId);
 
         if (doc.LoadFile(fontMetaPath.c_str()) != tinyxml2::XML_SUCCESS) {
-            printf("Failed to load XML file: %s", fontMetaPath.c_str());
+            Logging::Log("Failed to load XML file: %s", fontMetaPath.c_str());
             return nullptr;
         }
 
@@ -69,6 +69,8 @@ namespace Assets {
 namespace Game {
 
     void SetDynamicText(DynamicText& textObj, const char* text, ...) {
+        //maybe i should use a reserved buffer on the stack instead of extra steps to get buffer length
+        
         va_list args;
 
         va_start(args, text);

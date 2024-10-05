@@ -14,7 +14,7 @@ namespace Game::Renderer {
 
         if (!_renderer)
         {
-            printf("Failed to create renderer: %s\n", SDL_GetError());
+            Logging::Log("Failed to create renderer: %s\n", SDL_GetError());
             exit(1);
         }
     }
@@ -56,7 +56,7 @@ namespace Game::Renderer {
         Texture = IMG_LoadTexture(_renderer, filename);
 
         if (!Texture) {
-            printf("Unable to load texture %s\n", filename);
+            Logging::Log("Unable to load texture %s\n", filename);
         }
 
         return Texture;
