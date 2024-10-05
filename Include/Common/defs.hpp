@@ -72,6 +72,8 @@ namespace Assets {
 
 namespace Game {
 
+    constexpr int DYNAMIC_TEXT_MAX_SIZE = 256;
+    
     // All speeds are in pixels per second
 
     constexpr float PLAYER_SPEED = 300;

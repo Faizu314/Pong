@@ -14,7 +14,7 @@ namespace Logging {
         
         va_start(args, msg);
         
-        int length = vsnprintf(_logBuffer, 0, text, args_copy);
+        int length = vsnprintf(_logBuffer, LOG_BUFFER_SIZE, text, args_copy);
         
         if (length >= LOG_BUFFER_SIZE) {
             printf("Message longer than log buffer\n");

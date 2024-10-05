@@ -68,21 +68,14 @@ namespace Assets {
 
 namespace Game {
 
+    static char _formattedText[DYNAMIC_TEXT_MAX_SIZE];
+    
     void SetDynamicText(DynamicText& textObj, const char* text, ...) {
-        //maybe i should use a reserved buffer on the stack instead of extra steps to get buffer length
-        
         va_list args;
 
         va_start(args, text);
 
-        va_list args_copy;
-        va_copy(args_copy, args);
-        int length = vsnprintf(nullptr, 0, text, args_copy);
-        va_end(args_copy);
-
-        char* formattedText = new char[length + 1];
-
-        vsnprintf(formattedText, length + 1, text, args);
+        int length = vsnprintf(_formattedText, DYNAMIC_TEXT_MAX_SIZE, text, args);
 
         va_end(args);
 
@@ -93,7 +86,7 @@ namespace Game {
         }
 
         for (int i = 0; i < length; i++) {
-            int index = textObj.DynamicFont->IndexToUnicode[formattedText[i]];
+            int index = textObj.DynamicFont->IndexToUnicode[_formattedText[i]];
             int indexX = index % textObj.DynamicFont->BitmapSize.x;
             int indexY = index / textObj.DynamicFont->BitmapSize.x;
 
@@ -102,7 +95,5 @@ namespace Game {
             textObj.Selection[i].w = textObj.DynamicFont->CharacterSize.x;
             textObj.Selection[i].h = textObj.DynamicFont->CharacterSize.y;
         }
-
-        delete[] formattedText;
     }
 }
