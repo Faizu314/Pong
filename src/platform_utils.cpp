@@ -3,9 +3,6 @@
 namespace App {
 
 #ifdef _WIN32
-
-#include <windows.h>
-#include <algorithm>
     
     std::string GetExePath() {
         char exePath[MAX_PATH];
@@ -24,9 +21,6 @@ namespace App {
 }
 
 #elif __APPLE__
-
-#include <mach-o/dyld.h>
-#include <limits.h>
     
     std::string GetExePath() {
         char buf[PATH_MAX];
