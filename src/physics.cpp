@@ -49,6 +49,8 @@ namespace Game::Physics {
 
         if (!isColliding)
             return;
+        
+        float ballSpeed = glm::length(ball.Velocity);
 
         float xDisp, yDisp;
         if (ball.Velocity.x < 0.0f)
@@ -79,7 +81,7 @@ namespace Game::Physics {
         ball.Velocity += glm::normalize(ballMid - paddleMid) * PADDLE_DEFLECTION_WEIGHT;
         ball.Velocity += paddleVelNorm * PADDLE_VELOCITY_WEIGHT;
         ball.Velocity /= REFLECTION_WEIGHT + PADDLE_DEFLECTION_WEIGHT + PADDLE_VELOCITY_WEIGHT;
-        ball.Velocity = glm::normalize(ball.Velocity) * Game::BALL_SPEED; //maybe this logic should be in game.cpp?
+        ball.Velocity = glm::normalize(ball.Velocity) * ballSpeed * BALL_VELOCITY_DECAY;
     }
 
     void ResolveCollision(World& world) {
