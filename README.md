@@ -17,4 +17,4 @@ Sample commands for cmake:
 
 
 
-![PongPreview](https://github.com/user-attachments/assets/7f6908c6-7f48-4e60-a5b3-57b3f3a9a4d6)
+![PongPreview](./PongPreview.png)
