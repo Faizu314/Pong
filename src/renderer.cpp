@@ -23,7 +23,7 @@ namespace Game::Renderer {
         SDL_DestroyRenderer(_renderer);
     }
 
-    void Blit(SDL_Texture* texture, int x, int y) {
+    static void Blit(SDL_Texture* texture, int x, int y) {
         SDL_Rect dest;
 
         dest.x = x;
@@ -33,7 +33,7 @@ namespace Game::Renderer {
         SDL_RenderCopy(_renderer, texture, NULL, &dest);
     }
 
-    void Blit(SDL_Texture* texture, SDL_Rect srcRect, int x, int y, SDL_Point size, SDL_Color tint) {
+    static void Blit(SDL_Texture* texture, SDL_Rect srcRect, int x, int y, SDL_Point size, SDL_Color tint) {
         SDL_Rect dest;
 
         dest.x = x;
@@ -45,12 +45,12 @@ namespace Game::Renderer {
         SDL_RenderCopy(_renderer, texture, &srcRect, &dest);
     }
 
-    void DrawLine(int x1, int y1, int x2, int y2, SDL_Color color) {
+    static void DrawLine(int x1, int y1, int x2, int y2, SDL_Color color) {
         SDL_SetRenderDrawColor(_renderer, color.r, color.g, color.b, color.a);
         SDL_RenderDrawLine(_renderer, x1, y1, x2, y2);
     }
 
-    SDL_Texture* LoadTexture(const char* filename) {
+    static SDL_Texture* LoadTexture(const char* filename) {
         SDL_Texture* Texture;
 
         Texture = IMG_LoadTexture(_renderer, filename);

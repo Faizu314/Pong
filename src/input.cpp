@@ -2,7 +2,7 @@
 
 namespace Input {
 
-    void ProcessKeyDownEvent(InputKeys& input, const SDL_KeyboardEvent* event) {
+    static void ProcessKeyDownEvent(InputKeys& input, const SDL_KeyboardEvent* event) {
         if (event->repeat > 0)
             return;
 
@@ -18,7 +18,7 @@ namespace Input {
             input.Space = true;
     }
 
-    void ProcessKeyUpEvent(InputKeys& input, const SDL_KeyboardEvent* event) {
+    static void ProcessKeyUpEvent(InputKeys& input, const SDL_KeyboardEvent* event) {
         if (event->repeat > 0)
             return;
 

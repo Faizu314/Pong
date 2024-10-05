@@ -9,14 +9,10 @@ namespace Game {
 
     DEV(float _fpsDelay; int _frameCount;)
 
-    bool HasGameStarted() {
-        return _hasGameStarted;
-    }
-
     void Init(SDL_Window* window) {
         Renderer::InitRenderer(window);
 
-        Assets::DynamicFontAsset* dynamicFont = 
+        Assets::DynamicFontAsset* dynamicFont =
             Assets::CreateDynamicFontAsset(Renderer::GetSpriteAsset(Assets::FONT_BITMAP_SPRITE), Assets::FONT_META);
 
         memset(&_world, 0, sizeof(_world));
@@ -75,13 +71,17 @@ namespace Game {
         _hasGameStarted = false;
         _playerPoints = _computerPoints = 0;
     }
+    
+    static bool HasGameStarted() {
+        return _hasGameStarted;
+    }
 
-    void StartGame() {
+    static void StartGame() {
         _world.Ball.Velocity = glm::normalize(glm::vec2(-1, 1)) * BALL_SPEED;
         _hasGameStarted = true;
     }
 
-    void EndGame() {
+    static void EndGame() {
         float paddleY = (Scene::BOUNDS_TOP_RIGHT_Y + Scene::BOUNDS_BOTTOM_LEFT_Y) / 2.0f;
 
         _world.Player.Position = glm::vec2(Scene::BOUNDS_BOTTOM_LEFT_X + 10, paddleY - (_world.Player.Size.y / 2.0f));
@@ -96,7 +96,7 @@ namespace Game {
         _hasGameStarted = false;
     }
 
-    void SetPlayerVelocity(Entity& player, const Input::InputKeys& input) {
+    static void SetPlayerVelocity(Entity& player, const Input::InputKeys& input) {
         if (input.Up) {
             player.Velocity.y = -PLAYER_SPEED;
         }
@@ -108,7 +108,7 @@ namespace Game {
         }
     }
 
-    void SetComputerVelocity(Entity& computer, Entity& ball, float deltaTime) {
+    static void SetComputerVelocity(Entity& computer, Entity& ball, float deltaTime) {
         float ballNextFrameY = ball.Position.y + (ball.Size.y / 2.0f) + (ball.Velocity.y * deltaTime);
         float computerY = computer.Position.y + (computer.Size.y / 2.0f);
 
@@ -120,7 +120,7 @@ namespace Game {
             computer.Velocity = glm::vec2(0, -COMPUTER_SPEED);
     }
 
-    int CheckEndGame() {
+    static int CheckEndGame() {
         float ballLeftX = _world.Ball.Position.x;
         float ballRightX = ballLeftX + _world.Ball.Size.x;
 

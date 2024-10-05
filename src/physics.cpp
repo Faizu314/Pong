@@ -16,7 +16,7 @@ namespace Game::Physics {
         world.Ball.Position += world.Ball.Velocity * deltaTime;
     }
 
-    void ResolvePaddleWithWallCollision(Entity& paddle) {
+    static void ResolvePaddleWithWallCollision(Entity& paddle) {
         float paddleMaxY = Scene::BOUNDS_BOTTOM_LEFT_Y - paddle.Size.y;
         float paddleMinY = Scene::BOUNDS_TOP_RIGHT_Y;
 
@@ -26,7 +26,7 @@ namespace Game::Physics {
             paddle.Position.y = paddleMinY;
     }
 
-    void ResolveBallWithWallCollision(Entity& ball) {
+    static void ResolveBallWithWallCollision(Entity& ball) {
         float ballMaxY = Scene::BOUNDS_BOTTOM_LEFT_Y - ball.Size.y;
         float ballMinY = Scene::BOUNDS_TOP_RIGHT_Y;
 
@@ -40,7 +40,7 @@ namespace Game::Physics {
         ball.Velocity.y = -ball.Velocity.y;
     }
 
-    void ResolveBallWithPaddleCollision(Entity& ball, Entity& paddle) {
+    static void ResolveBallWithPaddleCollision(Entity& ball, Entity& paddle) {
         bool isColliding =
             (ball.Position.x < paddle.Position.x + paddle.Size.x) &&
             (ball.Position.x + ball.Size.x > paddle.Position.x) &&
