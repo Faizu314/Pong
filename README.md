@@ -9,7 +9,7 @@ How to build on Windows:
 2. mkdir Pong/build
 3. cd Pong/build
 4. cmake ..
-5. cmake --build . --config Debug
+5. cmake --build . --config Release
 
 How to build on Mac:
 1. git clone https://github.com/Faizan1015/Pong.git
