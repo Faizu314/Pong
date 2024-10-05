@@ -29,7 +29,7 @@ namespace Scene {
 
     inline const int FONT_SIZE = 14;
     inline const SDL_Color HEADER_TEXT_COLOR = { 255, 255, 255, 255 };
-    inline const SDL_Point HEADER_TEXT_RECT_CENTER = { 390, 19 };
+    inline const SDL_Point HEADER_TEXT_RECT_CENTER = { 310, 19 };
     inline const SDL_Point HEADER_TEXT_RECT_SIZE = { 100, 10 };
 
     // POINTS TEXT

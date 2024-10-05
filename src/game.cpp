@@ -19,7 +19,7 @@ namespace Game {
 
         // Text Entities
 
-        _world.HeaderText.Texture = Renderer::GetStaticTextTexture(Assets::GetFontAsset(Assets::FONT_TTF), "Press space to start");
+        _world.HeaderText.Texture = Renderer::GetStaticTextTexture(Assets::GetFontAsset(Assets::FONT_TTF), "Press space to start | Use arrows to move");
         _world.HeaderText.Size = Scene::HEADER_TEXT_RECT_SIZE;
         _world.HeaderText.Position = glm::vec2(Scene::HEADER_TEXT_RECT_CENTER.x - (Scene::HEADER_TEXT_RECT_SIZE.x / 2.0f), Scene::HEADER_TEXT_RECT_CENTER.y - (Scene::HEADER_TEXT_RECT_SIZE.y / 2.0f));
 
