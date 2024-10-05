@@ -80,7 +80,7 @@ namespace Game {
         va_end(args);
 
         if (textObj.CharCount != length) {
-            delete textObj.Selection;
+            delete[] textObj.Selection;
             textObj.Selection = new SDL_Rect[length];
             textObj.CharCount = length;
         }

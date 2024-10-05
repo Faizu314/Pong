@@ -192,7 +192,7 @@ namespace Game {
         delete _world.PlayerPoints.Selection;
         delete _world.ComputerPoints.Selection;
 
-        DEV(delete _world.Fps.Selection);
+        DEV(delete[] _world.Fps.Selection);
 
         Renderer::DestroyRenderer();
     }
