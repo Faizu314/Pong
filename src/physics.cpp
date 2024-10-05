@@ -84,7 +84,7 @@ namespace Game::Physics {
         ball.Velocity = glm::normalize(ball.Velocity) * ballSpeed * BALL_VELOCITY_DECAY;
     }
 
-    void ResolveCollision(World& world) {
+    void ResolveCollisions(World& world) {
         ResolvePaddleWithWallCollision(world.Player);
         ResolvePaddleWithWallCollision(world.Computer);
         ResolveBallWithWallCollision(world.Ball);

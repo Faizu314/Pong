@@ -164,7 +164,7 @@ namespace Game {
 
     void PhysicsTick(float deltaTime) {
         Physics::MoveEntities(_world, deltaTime);
-        Physics::ResolveCollision(_world);
+        Physics::ResolveCollisions(_world);
     }
 
     void RenderTick() {

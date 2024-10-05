@@ -5,5 +5,5 @@
 namespace Game::Physics {
 
 	void MoveEntities(World& world, float deltaTime);
-	void ResolveCollision(World& world);
+	void ResolveCollisions(World& world);
 }
