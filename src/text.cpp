@@ -38,7 +38,7 @@ namespace Assets {
             for (tinyxml2::XMLElement* characterElement = characterArray->FirstChildElement("Character"); characterElement != nullptr; characterElement = characterElement->NextSiblingElement("Character")) {
                 int unicode;
                 characterElement->QueryIntAttribute("unicode", &unicode);
-                font->IndexToUnicode[unicode] = index++;
+                font->UnicodeToIndex[unicode] = index++;
             }
         }
 
@@ -86,7 +86,7 @@ namespace Game {
         }
 
         for (int i = 0; i < length; i++) {
-            int index = textObj.DynamicFont->IndexToUnicode[_formattedText[i]];
+            int index = textObj.DynamicFont->UnicodeToIndex[_formattedText[i]];
             int indexX = index % textObj.DynamicFont->BitmapSize.x;
             int indexY = index / textObj.DynamicFont->BitmapSize.x;
 

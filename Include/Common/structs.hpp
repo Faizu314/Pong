@@ -27,7 +27,7 @@ namespace Assets {
     } Vector2Int;
 
     typedef struct {
-        std::unordered_map<int, int> IndexToUnicode;
+        std::unordered_map<int, int> UnicodeToIndex;
         Vector2Int CharacterSize;
         Vector2Int BitmapSize;
         SDL_Texture* Bitmap;
