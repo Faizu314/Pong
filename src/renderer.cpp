@@ -93,11 +93,11 @@ namespace Game::Renderer {
     }
 
     void RenderEntity(const Entity& entity) {
-        Blit(entity.Texture, entity.Position.x, entity.Position.y);
+        Blit(entity.Texture, (int)entity.Position.x, (int)entity.Position.y);
     }
 
     void RenderLine(const Line& line) {
-        DrawLine(line.PositionA.x, line.PositionA.y, line.PositionB.x, line.PositionB.y, Scene::BORDER_COLOR);
+        DrawLine((int)line.PositionA.x, (int)line.PositionA.y, (int)line.PositionB.x, (int)line.PositionB.y, Scene::BORDER_COLOR);
     }
 
     void RenderDynamicText(const DynamicText& text, SDL_Color tint) {

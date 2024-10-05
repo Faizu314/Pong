@@ -93,7 +93,7 @@ namespace Game {
         inline const float PADDLE_DEFLECTION_WEIGHT = 1.0;
         inline const float PADDLE_VELOCITY_WEIGHT = 1.0;
         
-        inline const float BALL_VELOCITY_DECAY = 1.05;
+        inline const float BALL_VELOCITY_DECAY = 1.05f;
     }
 }
 

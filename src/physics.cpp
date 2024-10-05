@@ -71,7 +71,7 @@ namespace Game::Physics {
         glm::vec2 ballMid(ball.Position.x + (ball.Size.x / 2.0), ball.Position.y + (ball.Size.y / 2.0));
         glm::vec2 paddleVelNorm = paddle.Velocity;
         if (paddleVelNorm.y != 0)
-            paddleVelNorm.y = paddleVelNorm.y > 0.0 ? 1.0 : -1.0;
+            paddleVelNorm.y = paddleVelNorm.y > 0.0 ? 1.0f : -1.0f;
 
         ball.Velocity = glm::normalize(ball.Velocity) * REFLECTION_WEIGHT;
         ball.Velocity += glm::normalize(ballMid - paddleMid) * PADDLE_DEFLECTION_WEIGHT;

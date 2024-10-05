@@ -56,15 +56,15 @@ namespace App {
         Init();
 
         Uint64 prevTime = SDL_GetPerformanceCounter();
-        const double freqMs = SDL_GetPerformanceFrequency();
-        double deltaTime;
+        Uint64 freqMs = SDL_GetPerformanceFrequency();
+        float deltaTime;
 
         while (true)
         {
             Input::GetInput(_input);
 
             Uint64 currTime = SDL_GetPerformanceCounter();
-            deltaTime = (currTime - prevTime) / freqMs;
+            deltaTime = (currTime - prevTime) / (float)freqMs;
             prevTime = SDL_GetPerformanceCounter();
 
     DEV(
