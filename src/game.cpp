@@ -41,8 +41,8 @@ namespace Game {
             _fpsDelay = 0.0f;
             _frameCount = 0;
             _world.Fps.DynamicFont = dynamicFont;
-            _world.Fps.Position = FPS_TEXT_POSITION;
-            _world.Fps.TextSize = FPS_TEXT_SIZE;
+            _world.Fps.Position = Scene::FPS_TEXT_POSITION;
+            _world.Fps.TextSize = Scene::FPS_TEXT_SIZE;
             SetDynamicText(_world.Fps, "%i", 0);
         )
 
@@ -151,14 +151,14 @@ namespace Game {
 
         DEV(
             _fpsDelay += deltaTime;
-        _frameCount++;
+            _frameCount++;
 
-        if (_fpsDelay > FPS_TICK_DELAY) {
-            float fps = (1.0f / _fpsDelay) * _frameCount;
-            SetDynamicText(_world.Fps, "%i", (int)fps);
-            _fpsDelay = 0.0f;
-            _frameCount = 0;
-        }
+            if (_fpsDelay > FPS_TICK_DELAY) {
+                float fps = _frameCount / _fpsDelay;
+                SetDynamicText(_world.Fps, "%i", (int)fps);
+                _fpsDelay = 0.0f;
+                _frameCount = 0;
+            }
         )
     }
 
@@ -183,7 +183,7 @@ namespace Game {
         Renderer::RenderDynamicText(_world.PlayerPoints, Scene::POINTS_TEXT_COLOR);
         Renderer::RenderDynamicText(_world.ComputerPoints, Scene::POINTS_TEXT_COLOR);
 
-        DEV(RenderDynamicText(_world.Fps, FPS_TEXT_COLOR));
+        DEV(Renderer::RenderDynamicText(_world.Fps, Scene::FPS_TEXT_COLOR));
 
         Renderer::RenderFrame();
     }

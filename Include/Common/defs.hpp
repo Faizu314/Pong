@@ -43,7 +43,6 @@ namespace Scene {
 
     // FPS TEXT
 
-    inline const float FPS_TICK_DELAY = 0.5f;
     inline const SDL_Color FPS_TEXT_COLOR = { 255, 0, 0, 255 };
     inline const SDL_Point FPS_TEXT_SIZE = { 8, 8 };
     inline const SDL_Point FPS_TEXT_POSITION = { 790 - 80, 590 - 16 };
@@ -79,6 +78,12 @@ namespace Game {
     inline const float PLAYER_SPEED = 300;
     inline const float COMPUTER_SPEED = 200;
     inline const float BALL_SPEED = 350;
+    
+#ifdef DEVELOPMENT
+    
+    inline const float FPS_TICK_DELAY = 0.5f;
+    
+#endif
 
     namespace Physics {
 
